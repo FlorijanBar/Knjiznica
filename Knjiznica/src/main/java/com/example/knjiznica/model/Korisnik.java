@@ -7,6 +7,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+import lombok.*;
+
+@Setter
+@Getter
+@Builder
+
 public class Korisnik {
 	
 	@Id
