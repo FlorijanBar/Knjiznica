@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.knjiznica.model;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

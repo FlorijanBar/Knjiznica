@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.knjiznica.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -22,22 +22,37 @@ public class Korisnik {
     @Column(name = "Email")
     private String email;
     
-    @ManyToOne
+
+    @Column(name = "Lozinka")
+    private String lozinka;
+    
+    @Column(name = "Vrsta_korisnika")
+    private String vrstaKorisnika;
+
+	@ManyToOne
     @JoinColumn(name = "StudentId")
     private Student student;
+    
+    @ManyToOne
+    @JoinColumn(name = "KnjizicarId")
+    private Knjizicar knjizicar;
 
 	public Korisnik() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Korisnik(Long id, String ime, String prezime, String email, Student student) {
+	public Korisnik(Long id, String ime, String prezime, String email, String lozinka, String vrstaKorisnika,
+			Student student, Knjizicar knjizicar) {
 		super();
 		this.id = id;
 		this.ime = ime;
 		this.prezime = prezime;
 		this.email = email;
+		this.lozinka = lozinka;
+		this.vrstaKorisnika = vrstaKorisnika;
 		this.student = student;
+		this.knjizicar = knjizicar;
 	}
 
 	public Long getId() {
@@ -72,6 +87,22 @@ public class Korisnik {
 		this.email = email;
 	}
 
+	public String getLozinka() {
+		return lozinka;
+	}
+
+	public void setLozinka(String lozinka) {
+		this.lozinka = lozinka;
+	}
+
+	public String getVrstaKorisnika() {
+		return vrstaKorisnika;
+	}
+
+	public void setVrstaKorisnika(String vrstaKorisnika) {
+		this.vrstaKorisnika = vrstaKorisnika;
+	}
+
 	public Student getStudent() {
 		return student;
 	}
@@ -80,4 +111,16 @@ public class Korisnik {
 		this.student = student;
 	}
 
+	public Knjizicar getKnjizicar() {
+		return knjizicar;
+	}
+
+	public void setKnjizicar(Knjizicar knjizicar) {
+		this.knjizicar = knjizicar;
+	}
+
+    
+
+
+	
 }
