@@ -4,8 +4,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-public class Knjizicar {
+public class Korisnik {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,18 +22,22 @@ public class Knjizicar {
     @Column(name = "Email")
     private String email;
     
+    @ManyToOne
+    @JoinColumn(name = "StudentId")
+    private Student student;
 
-	public Knjizicar() {
+	public Korisnik() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Knjizicar(Long id, String ime, String prezime, String email) {
+	public Korisnik(Long id, String ime, String prezime, String email, Student student) {
 		super();
 		this.id = id;
 		this.ime = ime;
 		this.prezime = prezime;
 		this.email = email;
+		this.student = student;
 	}
 
 	public Long getId() {
@@ -66,5 +72,12 @@ public class Knjizicar {
 		this.email = email;
 	}
 
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
 
 }
