@@ -33,7 +33,7 @@ public class Knjiga {
 	@Column(name="Oznaka")
 	private String oznaka;
 	@Column(name="Inventurni_broj")
-	private String inventurni_broj;
+	private int inventurni_broj;
 	
 	
 	
@@ -42,7 +42,7 @@ public class Knjiga {
 		// TODO Auto-generated constructor stub
 	}
 	public Knjiga(Long id, String naziv, String autor, int godina_izdanja, int broj_stranica, String oznaka,
-			String inventurni_broj) {
+			int inventurni_broj) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -88,10 +88,10 @@ public class Knjiga {
 	public void setOznaka(String oznaka) {
 		this.oznaka = oznaka;
 	}
-	public String getInventurni_broj() {
+	public int getInventurni_broj() {
 		return inventurni_broj;
 	}
-	public void setInventurni_broj(String inventurni_broj) {
+	public void setInventurni_broj(int inventurni_broj) {
 		this.inventurni_broj = inventurni_broj;
 	}
 }

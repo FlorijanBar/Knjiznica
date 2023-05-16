@@ -1,31 +1,41 @@
 package com.example.knjiznica.service;
 
-import com.example.knjiznica.model.Knjiga;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.knjiznica.model.Knjiga;
+import com.example.knjiznica.repository.KnjigaRepository;
+
+@Service
 public class KnjigaServiceImpl implements KnjigaService{
 
+	 @Autowired
+	    private KnjigaRepository knjigaRepository;
+
+	
     @Override
-    public Knjiga createKnjiga(Knjiga Knjiga) {
+    public Knjiga createKnjiga(Knjiga knjiga) {
+        return knjigaRepository.save(knjiga);
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createKnjiga'");
     }
 
     @Override
     public Iterable<Knjiga> getAllKnjiga() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllKnjiga'");
+    	return knjigaRepository.findAll();
     }
 
     @Override
     public Iterable<Knjiga> getKnjigaStudij(String studij) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getKnjigaStudij'");
+    	return knjigaRepository.findStudij(studij);
     }
 
     @Override
     public Knjiga getKnjiga(long id_Knjiga) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getKnjiga'");
+    	
+    	Optional<Knjiga> knjiga = knjigaRepository.findById(id_Knjiga);
+        return knjiga.orElse(null);
     }
     
 }
