@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Brisanje knjižničara</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <h2>Potvrda brisanja knjižničara</h2>
+    
+    <div>
+        <strong>ID:</strong> <span th:text="${knjizicar.id}"></span><br>
+        <strong>Ime:</strong> <span th:text="${knjizicar.ime}"></span><br>
+        <strong>Prezime:</strong> <span th:text="${knjizicar.prezime}"></span><br>
+        <strong>Email:</strong> <span th:text="${knjizicar.email}"></span><br>
+    </div>
+    
+    <p>Jeste li sigurni da želite izbrisati ovog knjižničara?</p>
+    
+    <form th:action="@{/knjizicar/{id}/delete(id=${knjizicar.id})}" method="post" style="display: inline;">
+        <input type="hidden" name="_method" value="DELETE" />
+        <button type="submit">Izbriši</button>
+    </form>
+    
+    <a href="/knjizicar">Povratak na popis knjižničara</a>
+</body>
+</html>

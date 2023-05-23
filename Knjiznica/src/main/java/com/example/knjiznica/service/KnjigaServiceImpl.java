@@ -15,27 +15,38 @@ public class KnjigaServiceImpl implements KnjigaService{
 	    private KnjigaRepository knjigaRepository;
 
 	
-    @Override
-    public Knjiga createKnjiga(Knjiga knjiga) {
-        return knjigaRepository.save(knjiga);
-        // TODO Auto-generated method stub
-    }
+	 @Override
+	    public Knjiga createKnjiga(Knjiga knjiga) {
+	        return knjigaRepository.save(knjiga);
+	    }
 
-    @Override
-    public Iterable<Knjiga> getAllKnjiga() {
-    	return knjigaRepository.findAll();
-    }
+	    @Override
+	    public Iterable<Knjiga> getAllKnjiga() {
+	        return knjigaRepository.findAll();
+	    }
 
-    @Override
-    public Iterable<Knjiga> getKnjigaStudij(String studij) {
-    	return knjigaRepository.findStudij(studij);
-    }
+	    @Override
+	    public Knjiga getKnjiga(Long id) {
+	        return knjigaRepository.findById(id).orElse(null);
+	    }
 
-    @Override
-    public Knjiga getKnjiga(long id_Knjiga) {
-    	
-    	Optional<Knjiga> knjiga = knjigaRepository.findById(id_Knjiga);
-        return knjiga.orElse(null);
-    }
-    
+	    @Override
+	    public Knjiga updateKnjiga(Long id, Knjiga knjiga) {
+	        Knjiga existingKnjiga = knjigaRepository.findById(id).orElse(null);
+	        if (existingKnjiga != null) {
+	            existingKnjiga.setNaziv(knjiga.getNaziv());
+	            existingKnjiga.setAutor(knjiga.getAutor());
+	            existingKnjiga.setGodina_izdanja(knjiga.getGodina_izdanja());
+	            existingKnjiga.setBroj_stranica(knjiga.getBroj_stranica());
+	            existingKnjiga.setOznaka(knjiga.getOznaka());
+	            existingKnjiga.setInventurni_broj(knjiga.getInventurni_broj());
+	            return knjigaRepository.save(existingKnjiga);
+	        }
+	        return null;
+	    }
+
+	    @Override
+	    public void deleteKnjiga(Long id) {
+	        knjigaRepository.deleteById(id);
+	    }
 }

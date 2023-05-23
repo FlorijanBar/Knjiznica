@@ -1,7 +1,9 @@
 package com.example.knjiznica.service;
 
-import com.example.knjiznica.model.StudentKnjiga;
+import org.springframework.stereotype.Service;
 
+import com.example.knjiznica.model.StudentKnjiga;
+@Service
 public interface StudentKnjigaService {
     
     StudentKnjiga createStudentKnjiga(StudentKnjiga StudentKnjiga);

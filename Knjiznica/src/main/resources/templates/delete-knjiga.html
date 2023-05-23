@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Knjiga</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <h2>Delete Knjiga</h2>
+    
+
+    <form action="#" th:action="@{/api/knjiga/{id}/delete(id=${knjiga.id})}" th:object="${knjiga}" method="post">
+    <input type="hidden" name="_method" value="DELETE" />
+        <button type="submit">Delete</button>
+    </form>
+</body>
+</html>

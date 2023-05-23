@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Studenti</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <h2>Popis studenta</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Studij</th>
+                <th>Godina Studija</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="student : ${studenti}">
+                <td th:text="${student.id}"></td>
+                <td th:text="${student.ime}"></td>
+                <td th:text="${student.prezime}"></td>
+                <td th:text="${student.studij}"></td>
+                <td th:text="${student.godinaStudija}"></td>
+                <td>
+                    <a th:href="@{/student/{id}(id=${student.id})}">Detalji</a>
+                    <a th:href="@{/student/{id}/update(id=${student.id})}">Uredi</a>
+                    <form th:action="@{/student/{id}/delete(id=${student.id})}" method="post" style="display: inline;">
+                        <input type="hidden" name="_method" value="DELETE" />
+                        <button type="submit">Izbriši</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <a href="/student/create">Dodaj studenta</a>
+</body>
+</html>

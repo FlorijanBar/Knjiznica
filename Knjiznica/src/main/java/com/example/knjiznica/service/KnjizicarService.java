@@ -8,7 +8,10 @@ public interface KnjizicarService {
 
     Iterable<Knjizicar> getAllKnjizicar();
 
-    Iterable<Knjizicar> getKnjizicarStudij(String studij);
 
-    Knjizicar getKnjizicar(long id_Knjizicar);
+    Knjizicar getKnjizicar(Long id);
+    
+    Knjizicar updateKnjizicar(Long id, Knjizicar knjizicar);
+    
+    void deleteKnjizicar(Long id);
 }

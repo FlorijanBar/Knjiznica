@@ -1,36 +1,52 @@
 package com.example.knjiznica.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.knjiznica.model.Student;
+import com.example.knjiznica.repository.StudentRepository;
+
 
 @Service
 @Transactional
 public class StudentServiceImpl implements StudentService {
 
-    @Override
-    public Student createStudent(Student Student) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createStudent'");
+	@Autowired
+    private StudentRepository studentRepository;
+	
+	@Override
+    public Student createStudent(Student student) {
+        return studentRepository.save(student);
     }
 
     @Override
     public Iterable<Student> getAllStudent() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllStudent'");
+        return studentRepository.findAll();
+    }
+
+    
+
+    @Override
+    public Student getStudent(Long id) {
+        return studentRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Iterable<Student> getStudentStudij(String studij) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getStudentStudij'");
+    public Student updateStudent(Long id, Student student) {
+        Student existingStudent = studentRepository.findById(id).orElse(null);
+        if (existingStudent != null) {
+        	existingStudent.setIme(student.getIme());
+        	existingStudent.setPrezime(student.getPrezime());
+            existingStudent.setStudij(student.getStudij());
+            existingStudent.setGodinaStudija(student.getGodinaStudija());
+            return studentRepository.save(existingStudent);
+        }
+        return null;
     }
 
     @Override
-    public Student getStudent(long id_Student) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getStudent'");
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
     }
 
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stvaranje studenta</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <h1>Stvaranje studenta</h1>
+     <form th:action="@{/student/create}" method="post">
+        <label for="ime">Ime:</label>
+        <input type="text" id="ime" name="ime" required><br>
+        
+        <label for="prezime">Prezime:</label>
+        <input type="text" id="prezime" name="prezime" required><br>
+        
+        <label for="studij">Studij:</label>
+        <input type="text" id="studij" name="studij" required><br>
+        
+        <label for="godinaStudija">Godina studija:</label>
+        <input type="number" id="godinaStudija" name="godinaStudija" required><br>
+        
+        <input type="submit" value="Spremi">
+    </form>
+</body>
+</html>

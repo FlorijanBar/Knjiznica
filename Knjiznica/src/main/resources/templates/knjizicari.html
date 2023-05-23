@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Knjižničari</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <h2>Popis knjižničara</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Email</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="knjizicar : ${knjizicari}">
+                <td th:text="${knjizicar.id}"></td>
+                <td th:text="${knjizicar.ime}"></td>
+                <td th:text="${knjizicar.prezime}"></td>
+                <td th:text="${knjizicar.email}"></td>
+                <td>
+                    <a th:href="@{/knjizicar/{id}(id=${knjizicar.id})}">Detalji</a>
+                    <a th:href="@{/knjizicar/{id}/update(id=${knjizicar.id})}">Uredi</a>
+                    <form th:action="@{/knjizicar/{id}/delete(id=${knjizicar.id})}" method="post" style="display: inline;">
+                        <input type="hidden" name="_method" value="DELETE" />
+                        <button type="submit">Izbriši</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <a href="/knjizicar/create">Dodaj knjižničara</a>
+</body>
+</html>

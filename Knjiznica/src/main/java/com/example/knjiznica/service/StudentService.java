@@ -1,15 +1,20 @@
 package com.example.knjiznica.service;
 
+
+
 import com.example.knjiznica.model.Student;
 
 public interface StudentService {
     
-    Student createStudent(Student Student);
+	Student createStudent(Student student);
 
     Iterable<Student> getAllStudent();
 
-    Iterable<Student> getStudentStudij(String studij);
 
-    Student getStudent(long id_Student);
+    Student getStudent(Long id);
+    
+    Student updateStudent(Long id, Student student);
+    
+    void deleteStudent(Long id);
 
 }

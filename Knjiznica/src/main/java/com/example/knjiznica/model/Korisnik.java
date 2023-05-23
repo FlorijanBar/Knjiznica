@@ -119,6 +119,12 @@ public class Korisnik {
 	}
 
 
+	public boolean isPresent() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
 	
 
 

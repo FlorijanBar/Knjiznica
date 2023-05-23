@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uređivanje studenta</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <h1>Uređivanje studenta</h1>
+     <form th:action="@{/student/{id}/update(id=${student.id})}" method="post">
+        <input type="hidden" name="_method" value="PUT">
+        
+        <label for="ime">Ime:</label>
+        <input type="text" id="ime" name="ime" required><br>
+        
+        <label for="prezime">Prezime:</label>
+        <input type="text" id="prezime" name="prezime" required><br>
+        
+        <label for="studij">Studij:</label>
+        <input type="text" id="studij" name="studij" required><br>
+        
+        <label for="godinaStudija">Godina studija:</label>
+        <input type="number" id="godinaStudija" name="godinaStudija" required><br>
+        
+        <input type="submit" value="Spremi">
+    </form>
+</body>
+</html>

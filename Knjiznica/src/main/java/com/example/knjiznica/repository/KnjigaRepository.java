@@ -9,9 +9,7 @@ import com.example.knjiznica.model.Knjiga;
 
 @Repository
 public interface KnjigaRepository extends JpaRepository<Knjiga, Long> {
-	
-	 @Query(value="SELECT k FROM Knjiga k WHERE k.studij = :studij",nativeQuery = true)
-	 Iterable<Knjiga> findStudij(@Param("studij") String studij);
+
 
 
 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Knjige</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    
+</head>
+<body>
+    <h2>Knjige</h2>
+    
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Naziv</th>
+            <th>Autor</th>
+            <th>Godina izdanja</th>
+            <th>Broj stranica</th>
+            <th>Oznaka</th>
+            <th>Inventurni broj</th>
+            <th>Actions</th>
+        </tr>
+        
+        <tr th:each="knjiga : ${knjige}">
+            <td th:text="${knjiga.id}"></td>
+            <td th:text="${knjiga.naziv}"></td>
+            <td th:text="${knjiga.autor}"></td>
+            <td th:text="${knjiga.godina_izdanja}"></td>
+            <td th:text="${knjiga.broj_stranica}"></td>
+            <td th:text="${knjiga.oznaka}"></td>
+            <td th:text="${knjiga.inventurni_broj}"></td>
+            <td>
+                <a th:href="@{/api/knjiga/{id}(id=${knjiga.id})}">View</a>
+                <a th:href="@{/api/knjiga/{id}/update(id=${knjiga.id})}">Update</a>
+                <a th:href="@{/api/knjiga/{id}/delete(id=${knjiga.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+    </table>
+    
+    <a href="/api/knjiga/create">Create Knjiga</a>
+</body>
+</html>

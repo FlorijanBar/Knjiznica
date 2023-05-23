@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ažuriranje knjižničara</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <h2>Ažuriranje knjižničara</h2>
+    
+    <form th:action="@{/knjizicar/{id}/update(id=${knjizicar.id})}" method="post">
+        <div>
+            <label for="ime">Ime:</label>
+            <input type="text" id="ime" name="ime" th:value="${knjizicar.ime}" required>
+        </div>
+        <div>
+            <label for="prezime">Prezime:</label>
+            <input type="text" id="prezime" name="prezime" th:value="${knjizicar.prezime}" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" th:value="${knjizicar.email}" required>
+        </div>
+        <button type="submit">Spremi</button>
+    </form>
+    
+    <a href="/knjizicar/{id}(id=${knjizicar.id})">Povratak na detalje knjižničara</a>
+</body>
+</html>

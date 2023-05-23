@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Knjižničari - Studij</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <h2>Knjižničari - Studij</h2>
+    
+    <table>
+        <tr>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Email</th>
+        </tr>
+        <tr th:each="knjizicar : ${knjizicari}">
+            <td th:text="${knjizicar.ime}"></td>
+            <td th:text="${knjizicar.prezime}"></td>
+            <td th:text="${knjizicar.email}"></td>
+        </tr>
+    </table>
+</body>
+</html>
