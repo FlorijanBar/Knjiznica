@@ -35,8 +35,41 @@
                 <a th:href="@{/api/knjiga/{id}/delete(id=${knjiga.id})}" onclick="return confirm('Are you sure?')">Delete</a>
             </td>
         </tr>
+        
+        <h2>Search Books</h2>
+
+    <form th:action="@{/api/knjiga/search}" method="get">
+        <div>
+            <label for="naziv">Naziv:</label>
+            <input type="text" id="naziv" name="naziv" required>
+        </div>
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Prikaz rezultata pretraživanja -->
+    <h3>Search Results</h3>
+    <table>
+        <tr>
+            <th>Naziv</th>
+            <th>Autor</th>
+            <th>Godina Izdanja</th>
+            <th>Broj Stranica</th>
+            <th>Oznaka</th>
+            <th>Inventurni Broj</th>
+        </tr>
+        <tr th:each="knjiga : ${books}">
+            <td th:text="${knjiga.naziv}"></td>
+            <td th:text="${knjigq.autor}"></td>
+            <td th:text="${knjigq.godina_izdanja}"></td>
+            <td th:text="${knjigq.broj_stranica}"></td>
+            <td th:text="${knjiga.oznaka}"></td>
+            <td th:text="${knjiga.inventurni_broj}"></td>
+        </tr>
+    </table>
     </table>
     
     <a href="/api/knjiga/create">Create Knjiga</a>
+    
+
 </body>
 </html>

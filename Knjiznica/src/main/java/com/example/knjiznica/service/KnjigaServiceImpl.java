@@ -1,5 +1,6 @@
 package com.example.knjiznica.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,9 @@ public class KnjigaServiceImpl implements KnjigaService{
 	    @Override
 	    public void deleteKnjiga(Long id) {
 	        knjigaRepository.deleteById(id);
+	    }
+	    @Override
+	    public List<Knjiga> searchBooksByNaziv(String naziv) {
+	        return knjigaRepository.findByNazivContainingIgnoreCase(naziv);
 	    }
 }
