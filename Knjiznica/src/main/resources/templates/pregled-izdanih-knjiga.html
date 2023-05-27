@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Knjiznica</title>
+</head>
+<body>
+    <h1>Pregled izdanih knjiga za studenta: <span th:text="${student.getIme()} + ' ' + ${student.getPrezime()}"></span></h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Naziv knjige</th>
+            <th>Datum izdavanja</th>
+            <th>Datum vraćanja</th>
+        </tr>
+        <tr th:each="izdanaKnjiga : ${izdaneKnjige}">
+            <td th:text="${izdanaKnjiga.id}"></td>
+            <td th:text="${izdanaKnjiga.knjiga.naziv}"></td>
+            <td th:text="${izdanaKnjiga.datumIzdavanja}"></td>
+            <td th:text="${izdanaKnjiga.datumVracanja}"></td>
+        </tr>
+    </table>
+</body>
+</html>

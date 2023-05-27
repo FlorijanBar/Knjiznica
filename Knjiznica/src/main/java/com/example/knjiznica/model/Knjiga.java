@@ -94,4 +94,5 @@ public class Knjiga {
 	public void setInventurni_broj(int inventurni_broj) {
 		this.inventurni_broj = inventurni_broj;
 	}
+	
 }

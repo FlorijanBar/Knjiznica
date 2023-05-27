@@ -1,5 +1,8 @@
 package com.example.knjiznica.model;
 
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +32,12 @@ public class StudentKnjiga {
     @ManyToOne
     @JoinColumn(name = "KnjigaId")
     private Knjiga knjiga;
+    
+    @Column(name = "DatumIzdavanja")
+    private LocalDate datumIzdavanja;
+
+    @Column(name = "DatumVracanja")
+    private LocalDate datumVracanja;
 
     
     
@@ -37,36 +46,75 @@ public class StudentKnjiga {
 		// TODO Auto-generated constructor stub
 	}
 
-	public StudentKnjiga(Long id, Student student, Knjiga knjiga) {
+	public StudentKnjiga(Long id, Student student, Knjiga knjiga, LocalDate datumIzdavanja, LocalDate datumVracanja) {
 		super();
 		this.id = id;
 		this.student = student;
 		this.knjiga = knjiga;
+		this.datumIzdavanja = datumIzdavanja;
+		this.datumVracanja = datumVracanja;
 	}
+
+
 
 	public Long getId() {
 		return id;
 	}
 
+
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+
 
 	public Student getStudent() {
 		return student;
 	}
 
+
+
 	public void setStudent(Student student) {
 		this.student = student;
 	}
+
+
 
 	public Knjiga getKnjiga() {
 		return knjiga;
 	}
 
+
+
 	public void setKnjiga(Knjiga knjiga) {
 		this.knjiga = knjiga;
 	}
+
+
+
+	public LocalDate getDatumIzdavanja() {
+		return datumIzdavanja;
+	}
+
+
+
+	public void setDatumIzdavanja(LocalDate datumIzdavanja) {
+		this.datumIzdavanja = datumIzdavanja;
+	}
+
+
+
+	public LocalDate getDatumVracanja() {
+		return datumVracanja;
+	}
+
+
+
+	public void setDatumVracanja(LocalDate datumVracanja) {
+		this.datumVracanja = datumVracanja;
+	}
+
 
 	  
 }

@@ -10,7 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.example.knjiznica.model.Knjiga;
+import com.example.knjiznica.model.Student;
+import com.example.knjiznica.model.StudentKnjiga;
+import com.example.knjiznica.repository.StudentKnjigaRepository;
 import com.example.knjiznica.service.KnjigaService;
+import com.example.knjiznica.service.StudentKnjigaService;
+import com.example.knjiznica.service.StudentService;
 
 @Controller
 @RequestMapping("/api/knjiga")
@@ -18,6 +23,11 @@ public class KnjigaController {
 
     @Autowired
     private KnjigaService knjigaService;
+    @Autowired
+    private StudentService studentService;
+    
+    @Autowired
+    private StudentKnjigaService studentKnjigaService;
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
@@ -96,6 +106,79 @@ public class KnjigaController {
         List<Knjiga> books = knjigaService.searchBooksByNaziv(naziv);
         return ResponseEntity.ok(books);
     }
+    
+    @PostMapping("/{knjigaId}/izdaj/{studentId}")
+    public ResponseEntity<String> izdajKnjigu(@PathVariable("knjigaId") Long knjigaId, @PathVariable("studentId") Long studentId) {
+        Knjiga knjiga = knjigaService.getKnjiga(knjigaId);
+        Student student = studentService.getStudent(studentId);
+
+        if (knjiga == null || student == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Knjiga ili student nisu pronađeni.");
+        }
+
+        if (studentKnjigaService.isKnjigaIzdata(knjiga)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Knjiga je već izdana.");
+        }
+
+        studentKnjigaService.izdajKnjigu(student, knjiga);
+
+        return ResponseEntity.ok("Knjiga je uspješno izdana studentu.");
+    }
+
+
+    // Ostali kontroleri i metode
+
+    @GetMapping("/{knjigaId}/izdaj/{studentId}")
+    public String showIzdavanjeKnjigeForm(@PathVariable("knjigaId") Long knjigaId, @PathVariable("studentId") Long studentId, Model model) {
+        Knjiga knjiga = knjigaService.getKnjiga(knjigaId);
+        Student student = studentService.getStudent(studentId);
+
+        if (knjiga == null || student == null) {
+            return "error";
+        }
+
+        model.addAttribute("knjiga", knjiga);
+        model.addAttribute("student", student);
+
+        Iterable<Student> studenti = studentService.getAllStudent();
+        Iterable<Knjiga> knjige = knjigaService.getAllKnjiga();
+        model.addAttribute("studenti", studenti);
+        model.addAttribute("knjige", knjige);
+
+        return "izdavanje-knjige";
+    }
+
+
+    @GetMapping("/student/{studentId}/izdane-knjige")
+    public String getIzdaneKnjigeZaStudenta(@PathVariable("studentId") Long studentId, Model model) {
+        Student student = studentService.getStudent(studentId);
+
+        if (student == null) {
+            return "error";
+        }
+
+        List<StudentKnjiga> izdaneKnjige = studentKnjigaService.getIzdateKnjigeZaStudenta(student);
+        model.addAttribute("student", student);
+        model.addAttribute("izdaneKnjige", izdaneKnjige);
+
+        return "pregled-izdanih-knjiga";
+    }
+
+    @GetMapping("/{knjigaId}/status")
+    public String provjeriStatusIzdaneKnjige(@PathVariable("knjigaId") Long knjigaId, Model model) {
+        Knjiga knjiga = knjigaService.getKnjiga(knjigaId);
+
+        if (knjiga == null) {
+            return "error";
+        }
+
+        boolean izdata = studentKnjigaService.isKnjigaIzdata(knjiga);
+        model.addAttribute("knjiga", knjiga);
+        model.addAttribute("izdata", izdata);
+
+        return "status-izdane-knjige";
+    }
+
 
     
     

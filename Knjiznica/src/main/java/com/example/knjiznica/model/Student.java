@@ -1,11 +1,15 @@
 package com.example.knjiznica.model;
 
 import jakarta.persistence.Table;
+
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.*;
 
 @Setter
@@ -30,18 +34,23 @@ public class Student {
 
 	@Column(name = "Godina_studija")
 	private int godinaStudija;
+	
+	@OneToMany(mappedBy = "student")
+	private List<StudentKnjiga> izdateKnjige;
 
 	public Student() {
 		super();
 	}
 
-	public Student(Long id, String ime, String prezime, String studij, int godinaStudija) {
+	public Student(Long id, String ime, String prezime, String studij, int godinaStudija,
+			List<StudentKnjiga> izdateKnjige) {
 		super();
 		this.id = id;
 		this.ime = ime;
 		this.prezime = prezime;
 		this.studij = studij;
 		this.godinaStudija = godinaStudija;
+		this.izdateKnjige = izdateKnjige;
 	}
 
 	public Long getId() {
@@ -83,5 +92,15 @@ public class Student {
 	public void setGodinaStudija(int godinaStudija) {
 		this.godinaStudija = godinaStudija;
 	}
+
+	public List<StudentKnjiga> getIzdateKnjige() {
+		return izdateKnjige;
+	}
+
+	public void setIzdateKnjige(List<StudentKnjiga> izdateKnjige) {
+		this.izdateKnjige = izdateKnjige;
+	}
+
+
 
 }
