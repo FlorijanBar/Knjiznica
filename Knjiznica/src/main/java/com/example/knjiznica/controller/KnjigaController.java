@@ -1,5 +1,6 @@
 package com.example.knjiznica.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,7 +122,7 @@ public class KnjigaController {
         }
 
         studentKnjigaService.izdajKnjigu(student, knjiga);
-
+        
         return ResponseEntity.ok("Knjiga je uspješno izdana studentu.");
     }
 
@@ -177,6 +178,44 @@ public class KnjigaController {
         model.addAttribute("izdata", izdata);
 
         return "status-izdane-knjige";
+    }
+
+    @PostMapping("/vratiKnjigu/{studentId}/{knjigaId}")
+    public ResponseEntity<String> vratiKnjigu(@PathVariable("studentId") Long studentId, @PathVariable("knjigaId") Long knjigaId) {
+        Student student = studentService.getStudent(studentId);
+        Knjiga knjiga = knjigaService.getKnjiga(knjigaId);
+
+        if (student == null || knjiga == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student ili knjiga nisu pronađeni.");
+        }
+
+        // Stvaranje objekta StudentKnjiga s dobivenim studentom i knjigom
+        StudentKnjiga izdanaKnjiga = new StudentKnjiga();
+        izdanaKnjiga.setStudent(student);
+        izdanaKnjiga.setKnjiga(knjiga);
+
+        studentKnjigaService.vratiKnjigu(izdanaKnjiga);
+        return ResponseEntity.ok("Knjiga je vraćena.");
+    }
+
+    @GetMapping("/vratiKnjigu/{studentId}/{knjigaId}")
+    public String vratiKnjiguForm(@PathVariable("studentId") Long studentId, @PathVariable("knjigaId") Long knjigaId, Model model) {
+        Student student = studentService.getStudent(studentId);
+        Knjiga knjiga = knjigaService.getKnjiga(knjigaId);
+
+        if (knjiga == null || student == null) {
+            return "error";
+        }
+
+        model.addAttribute("knjiga", knjiga);
+        model.addAttribute("student", student);
+
+        Iterable<Student> studenti = studentService.getAllStudent();
+        Iterable<Knjiga> knjige = knjigaService.getAllKnjiga();
+        model.addAttribute("studenti", studenti);
+        model.addAttribute("knjige", knjige);
+
+        return "izdavanje-knjige";
     }
 
 

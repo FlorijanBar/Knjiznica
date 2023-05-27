@@ -27,6 +27,7 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
 	        izdanaKnjiga.setStudent(student);
 	        izdanaKnjiga.setKnjiga(knjiga);
 	        izdanaKnjiga.setDatumIzdavanja(LocalDate.now());
+	        izdanaKnjiga.setDatumVracanja(LocalDate.now());
 	        // Postavite datum vraćanja prema potrebama
 	        // Možete dodati dodatnu logiku ovdje, poput provjere dostupnosti knjige
 	        // i ažuriranja statusa knjige
