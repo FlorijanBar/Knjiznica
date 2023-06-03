@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    
+    <form action="/api/knjiga/search" method="get">
+        <input type="text" name="naziv" placeholder="Search by title">
+        <button type="submit">Search</button>
+    </form>
+    
+    <table>
+         <tr>
+            <th>Naziv</th>
+            <th>Autor</th>
+            <th>Godina Izdanja</th>
+            <th>Broj Stranica</th>
+            <th>Oznaka</th>
+            <th>Inventurni Broj</th>
+        </tr>
+        <tr th:each="knjiga : ${books}">
+            <td th:text="${knjiga.naziv}"></td>
+            <td th:text="${knjiga.autor}"></td>
+            <td th:text="${knjiga.godina_izdanja}"></td>
+            <td th:text="${knjiga.broj_stranica}"></td>
+            <td th:text="${knjiga.oznaka}"></td>
+            <td th:text="${knjiga.inventurni_broj}"></td>
+        </tr>
+    </table>
+</body>
+</html>

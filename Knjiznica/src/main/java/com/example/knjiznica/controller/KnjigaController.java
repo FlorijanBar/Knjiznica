@@ -1,4 +1,7 @@
 package com.example.knjiznica.controller;
+import org.springframework.web.servlet.view.RedirectView;
+import java.util.ArrayList;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.example.knjiznica.model.Knjiga;
 import com.example.knjiznica.model.Student;
 import com.example.knjiznica.model.StudentKnjiga;
@@ -37,9 +42,19 @@ public class KnjigaController {
     }
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Knjiga> createKnjiga(@ModelAttribute Knjiga knjiga) {
+    public ModelAndView createKnjiga(@ModelAttribute Knjiga knjiga) {
         Knjiga createdKnjiga = knjigaService.createKnjiga(knjiga);
-        return new ResponseEntity<>(createdKnjiga, HttpStatus.CREATED);
+        
+        // Provjera uspješnosti stvaranja knjige
+        if (createdKnjiga != null) {
+            // Preusmjeravanje korisnika na stranicu koja prikazuje sve knjige
+            return new ModelAndView("redirect:/api/knjiga/all");
+        } else {
+            // Prikazivanje poruke o greški na istoj stranici
+            ModelAndView modelAndView = new ModelAndView("knjiga");
+            modelAndView.addObject("errorMessage", "Došlo je do pogreške prilikom stvaranja knjige.");
+            return modelAndView;
+        }
     }
 
     @GetMapping("/all")
@@ -72,12 +87,13 @@ public class KnjigaController {
     }
     
     @PostMapping("/{id}/update")
-    public ResponseEntity<Knjiga> updateKnjiga(@PathVariable Long id, @ModelAttribute Knjiga knjigaData) {
+    public ModelAndView updateKnjiga(@PathVariable Long id, @ModelAttribute Knjiga knjigaData) {
         Knjiga updatedKnjiga = knjigaService.updateKnjiga(id, knjigaData);
         if (updatedKnjiga != null) {
-            return new ResponseEntity<>(updatedKnjiga, HttpStatus.OK);
+            RedirectView redirect = new RedirectView("/api/knjiga/all");
+            return new ModelAndView(redirect);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ModelAndView("error-page"); // Stranica za prikaz greške
         }
     }
 
@@ -103,51 +119,49 @@ public class KnjigaController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Knjiga>> searchBooksByNaziv(@RequestParam("naziv") String naziv) {
+    public ModelAndView searchBooksByNaziv(@RequestParam("naziv") String naziv) {
         List<Knjiga> books = knjigaService.searchBooksByNaziv(naziv);
-        return ResponseEntity.ok(books);
-    }
-    
-    @PostMapping("/{knjigaId}/izdaj/{studentId}")
-    public ResponseEntity<String> izdajKnjigu(@PathVariable("knjigaId") Long knjigaId, @PathVariable("studentId") Long studentId) {
-        Knjiga knjiga = knjigaService.getKnjiga(knjigaId);
-        Student student = studentService.getStudent(studentId);
 
-        if (knjiga == null || student == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Knjiga ili student nisu pronađeni.");
+        // Dodavanje liste knjiga kao atributa modela
+        ModelAndView modelAndView = new ModelAndView("search");
+        modelAndView.addObject("books", books);
+        return modelAndView;
+    }
+
+    
+    @PostMapping("/izdaj")
+    public ResponseEntity<String> izdajKnjigu(@RequestParam("studentId") Long studentId, @RequestParam("knjigaId") Long knjigaId) {
+        Student student = studentService.getStudent(studentId);
+        Knjiga knjiga = knjigaService.getKnjiga(knjigaId);
+
+        if (student == null || knjiga == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student ili knjiga nisu pronađeni.");
         }
 
-        if (studentKnjigaService.isKnjigaIzdata(knjiga)) {
+        if (studentKnjigaService.isKnjigaIzdata(student, knjiga)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Knjiga je već izdana.");
         }
 
         studentKnjigaService.izdajKnjigu(student, knjiga);
-        
+
         return ResponseEntity.ok("Knjiga je uspješno izdana studentu.");
     }
 
 
+
     // Ostali kontroleri i metode
 
-    @GetMapping("/{knjigaId}/izdaj/{studentId}")
-    public String showIzdavanjeKnjigeForm(@PathVariable("knjigaId") Long knjigaId, @PathVariable("studentId") Long studentId, Model model) {
-        Knjiga knjiga = knjigaService.getKnjiga(knjigaId);
-        Student student = studentService.getStudent(studentId);
-
-        if (knjiga == null || student == null) {
-            return "error";
-        }
-
-        model.addAttribute("knjiga", knjiga);
-        model.addAttribute("student", student);
-
+    @GetMapping("/izdaj")
+    public String showIzdavanjeKnjige(Model model) {
         Iterable<Student> studenti = studentService.getAllStudent();
         Iterable<Knjiga> knjige = knjigaService.getAllKnjiga();
+
         model.addAttribute("studenti", studenti);
         model.addAttribute("knjige", knjige);
 
-        return "izdavanje-knjige";
+        return "izdavanje-knjige"; // Naziv Thymeleaf predloška za prikazivanje stranice izdavanja knjige
     }
+
 
 
     @GetMapping("/student/{studentId}/izdane-knjige")
@@ -173,15 +187,23 @@ public class KnjigaController {
             return "error";
         }
 
-        boolean izdata = studentKnjigaService.isKnjigaIzdata(knjiga);
+        // Dohvat postojećeg objekta StudentKnjiga iz baze podataka
+        List<StudentKnjiga> izdanaKnjiga = studentKnjigaService.findByKnjiga(knjiga);
+
+        if (izdanaKnjiga == null) {
+            return "error";
+        }
+
+        boolean izdata = true; // Postavite izdata na odgovarajuću vrijednost statusa izdane knjige
+
         model.addAttribute("knjiga", knjiga);
         model.addAttribute("izdata", izdata);
 
         return "status-izdane-knjige";
     }
 
-    @PostMapping("/vratiKnjigu/{studentId}/{knjigaId}")
-    public ResponseEntity<String> vratiKnjigu(@PathVariable("studentId") Long studentId, @PathVariable("knjigaId") Long knjigaId) {
+    @PostMapping("/vratiKnjigu")
+    public ResponseEntity<String> vratiKnjigu(@RequestParam("studentId") Long studentId, @RequestParam("knjigaId") Long knjigaId) {
         Student student = studentService.getStudent(studentId);
         Knjiga knjiga = knjigaService.getKnjiga(knjigaId);
 
@@ -189,34 +211,54 @@ public class KnjigaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student ili knjiga nisu pronađeni.");
         }
 
+        // Provjeri je li knjiga stvarno izdana studentu
+        if (!studentKnjigaService.isKnjigaIzdata(student, knjiga)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Knjiga nije izdana studentu.");
+        }
+
         // Stvaranje objekta StudentKnjiga s dobivenim studentom i knjigom
         StudentKnjiga izdanaKnjiga = new StudentKnjiga();
         izdanaKnjiga.setStudent(student);
         izdanaKnjiga.setKnjiga(knjiga);
+        izdanaKnjiga.setDatumVracanja(LocalDate.now()); // Postavite datum vraćanja na trenutni datum
 
         studentKnjigaService.vratiKnjigu(izdanaKnjiga);
         return ResponseEntity.ok("Knjiga je vraćena.");
     }
 
-    @GetMapping("/vratiKnjigu/{studentId}/{knjigaId}")
-    public String vratiKnjiguForm(@PathVariable("studentId") Long studentId, @PathVariable("knjigaId") Long knjigaId, Model model) {
-        Student student = studentService.getStudent(studentId);
-        Knjiga knjiga = knjigaService.getKnjiga(knjigaId);
 
-        if (knjiga == null || student == null) {
+    @GetMapping("/vratiKnjigu")
+    public String getIzdaneKnjige(@RequestParam("studentId") Long studentId, Model model) {
+        Student student = studentService.getStudent(studentId);
+
+        if (student == null) {
             return "error";
         }
 
-        model.addAttribute("knjiga", knjiga);
-        model.addAttribute("student", student);
+        List<StudentKnjiga> izdaneKnjige = studentKnjigaService.getAllIzdaneKnjigeByStudent(student);
+        List<Knjiga> knjige = new ArrayList<>();
 
-        Iterable<Student> studenti = studentService.getAllStudent();
-        Iterable<Knjiga> knjige = knjigaService.getAllKnjiga();
-        model.addAttribute("studenti", studenti);
+        for (StudentKnjiga izdanaKnjiga : izdaneKnjige) {
+            knjige.add(izdanaKnjiga.getKnjiga());
+        }
+
+        model.addAttribute("student", student);
         model.addAttribute("knjige", knjige);
 
-        return "izdavanje-knjige";
+        return "izdane-knjige";
     }
+    @GetMapping("/vraceneKnjige/{studentId}")
+    public String prikaziVraceneKnjige(@PathVariable("studentId") Long studentId, Model model) {
+        Student student = studentService.getStudent(studentId);
+        if (student == null) {
+            return "error";
+        }
+        List<Knjiga> vraceneKnjige = studentKnjigaService.getVraceneKnjigeZaStudenta(studentId);
+        model.addAttribute("student", student);
+        model.addAttribute("vraceneKnjige", vraceneKnjige);
+        return "vracene-knjige";
+    }
+
 
 
     

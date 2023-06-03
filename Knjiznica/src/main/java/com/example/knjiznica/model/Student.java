@@ -35,6 +35,9 @@ public class Student {
 	@Column(name = "Godina_studija")
 	private int godinaStudija;
 	
+	 @Column(name = "Email")
+	 private String email;
+	
 	@OneToMany(mappedBy = "student")
 	private List<StudentKnjiga> izdateKnjige;
 
@@ -42,7 +45,9 @@ public class Student {
 		super();
 	}
 
-	public Student(Long id, String ime, String prezime, String studij, int godinaStudija,
+	
+
+	public Student(Long id, String ime, String prezime, String studij, int godinaStudija, String email,
 			List<StudentKnjiga> izdateKnjige) {
 		super();
 		this.id = id;
@@ -50,8 +55,11 @@ public class Student {
 		this.prezime = prezime;
 		this.studij = studij;
 		this.godinaStudija = godinaStudija;
+		this.email = email;
 		this.izdateKnjige = izdateKnjige;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -92,6 +100,18 @@ public class Student {
 	public void setGodinaStudija(int godinaStudija) {
 		this.godinaStudija = godinaStudija;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
 
 	public List<StudentKnjiga> getIzdateKnjige() {
 		return izdateKnjige;

@@ -28,7 +28,6 @@ public class SecurityConfig{
             .formLogin()
                 .loginPage("/korisnik/login")
                 .defaultSuccessUrl("/home",true)
-                .failureUrl("/korisnik/login?error")
                 .permitAll()
                 .and()
             .logout()
@@ -41,6 +40,8 @@ public class SecurityConfig{
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
+    
 }
 
     

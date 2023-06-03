@@ -37,9 +37,7 @@ public class Korisnik {
     @JoinColumn(name = "KnjizicarId")
     private Knjizicar knjizicar;
     
-    @Column(name = "Vrsta_korisnika")
-    private String vrstaKorisnika;
-
+   
 
 	public Korisnik() {
 		super();
@@ -47,16 +45,18 @@ public class Korisnik {
 	}
 
 
-	public Korisnik(Long id, String email, String lozinka, Student student, Knjizicar knjizicar,
-			String vrstaKorisnika) {
+
+
+	public Korisnik(Long id, String email, String lozinka, Student student, Knjizicar knjizicar) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.lozinka = lozinka;
 		this.student = student;
 		this.knjizicar = knjizicar;
-		this.vrstaKorisnika = vrstaKorisnika;
 	}
+
+
 
 
 	public Long getId() {
@@ -64,9 +64,13 @@ public class Korisnik {
 	}
 
 
+
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+
 
 
 	public String getEmail() {
@@ -74,9 +78,13 @@ public class Korisnik {
 	}
 
 
+
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
 
 
 	public String getLozinka() {
@@ -84,9 +92,13 @@ public class Korisnik {
 	}
 
 
+
+
 	public void setLozinka(String lozinka) {
 		this.lozinka = lozinka;
 	}
+
+
 
 
 	public Student getStudent() {
@@ -94,9 +106,13 @@ public class Korisnik {
 	}
 
 
+
+
 	public void setStudent(Student student) {
 		this.student = student;
 	}
+
+
 
 
 	public Knjizicar getKnjizicar() {
@@ -104,19 +120,13 @@ public class Korisnik {
 	}
 
 
+
+
 	public void setKnjizicar(Knjizicar knjizicar) {
 		this.knjizicar = knjizicar;
 	}
 
 
-	public String getVrstaKorisnika() {
-		return vrstaKorisnika;
-	}
-
-
-	public void setVrstaKorisnika(String vrstaKorisnika) {
-		this.vrstaKorisnika = vrstaKorisnika;
-	}
 
 
 	public boolean isPresent() {

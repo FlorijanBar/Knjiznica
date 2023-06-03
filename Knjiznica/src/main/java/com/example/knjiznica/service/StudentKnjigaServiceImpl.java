@@ -1,5 +1,5 @@
 package com.example.knjiznica.service;
-
+import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
 	        izdanaKnjiga.setStudent(student);
 	        izdanaKnjiga.setKnjiga(knjiga);
 	        izdanaKnjiga.setDatumIzdavanja(LocalDate.now());
-	        izdanaKnjiga.setDatumVracanja(LocalDate.now());
+	        izdanaKnjiga.setDatumVracanja(LocalDate.now().plusDays(30));
 	        // Postavite datum vraćanja prema potrebama
 	        // Možete dodati dodatnu logiku ovdje, poput provjere dostupnosti knjige
 	        // i ažuriranja statusa knjige
@@ -42,14 +42,36 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
 	    }
 
 	    @Override
-	    public boolean isKnjigaIzdata(Knjiga knjiga) {
+	    public boolean isKnjigaIzdata(Student student, Knjiga knjiga) {
 	        List<StudentKnjiga> izdateKnjige = studentKnjigaRepository.findByKnjiga(knjiga);
-	        return !izdateKnjige.isEmpty();
+	        return izdateKnjige.stream().anyMatch(sk -> sk.getStudent().equals(student));
 	    }
+
 
 	    @Override
 	    public List<StudentKnjiga> getIzdateKnjigeZaStudenta(Student student) {
 	        return studentKnjigaRepository.findByStudent(student);
 	    }
-    
+	    @Override
+	    public StudentKnjiga findByStudentAndKnjiga(Student student, Knjiga knjiga) {
+	        return studentKnjigaRepository.findByStudentAndKnjiga(student, knjiga);
+	    }
+	    @Override
+	    public List<StudentKnjiga> findByKnjiga(Knjiga knjiga) {
+	        return studentKnjigaRepository.findByKnjiga(knjiga);
+	    }
+	    @Override
+	    public List<StudentKnjiga> getAllIzdaneKnjigeByStudent(Student student) {
+	        return studentKnjigaRepository.findAllByStudentAndDatumVracanjaIsNull(student);
+	    }
+	    @Override
+	    public List<Knjiga> getVraceneKnjigeZaStudenta(Long studentId) {
+	        List<StudentKnjiga> vraceneKnjige = studentKnjigaRepository.findAllByStudentIdAndDatumVracanjaIsNotNull(studentId);
+	        List<Knjiga> knjige = new ArrayList<>();
+	        for (StudentKnjiga studentKnjiga : vraceneKnjige) {
+	            knjige.add(studentKnjiga.getKnjiga());
+	        }
+	        return knjige;
+	    }
+
 }

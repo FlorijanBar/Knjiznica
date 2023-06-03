@@ -59,9 +59,9 @@
         </tr>
         <tr th:each="knjiga : ${books}">
             <td th:text="${knjiga.naziv}"></td>
-            <td th:text="${knjigq.autor}"></td>
-            <td th:text="${knjigq.godina_izdanja}"></td>
-            <td th:text="${knjigq.broj_stranica}"></td>
+            <td th:text="${knjiga.autor}"></td>
+            <td th:text="${knjiga.godina_izdanja}"></td>
+            <td th:text="${knjiga.broj_stranica}"></td>
             <td th:text="${knjiga.oznaka}"></td>
             <td th:text="${knjiga.inventurni_broj}"></td>
         </tr>

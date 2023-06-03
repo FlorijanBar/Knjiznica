@@ -10,6 +10,6 @@ import com.example.knjiznica.model.Korisnik;
 @Repository
 public interface KorisnikRepository extends JpaRepository<Korisnik, Long> {
 
-    Optional<Korisnik> findByEmail(String email);
+	  Korisnik findByEmail(String email);
 
 }

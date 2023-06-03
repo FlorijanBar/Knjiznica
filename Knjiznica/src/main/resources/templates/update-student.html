@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Uređivanje studenta</h1>
-     <form th:action="@{/student/{id}/update(id=${student.id})}" method="post">
+     <form th:action="@{/student/{id}/update(id=${student.id})}" th:object="${student}" method="post">
         <input type="hidden" name="_method" value="PUT">
         
         <label for="ime">Ime:</label>

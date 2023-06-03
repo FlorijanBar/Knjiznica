@@ -1,7 +1,9 @@
 package com.example.knjiznica.service;
 
-import com.example.knjiznica.model.Knjizicar;
+import org.springframework.stereotype.Service;
 
+import com.example.knjiznica.model.Knjizicar;
+@Service
 public interface KnjizicarService {
     
     Knjizicar createKnjizicar(Knjizicar Knjizicar);
@@ -14,4 +16,6 @@ public interface KnjizicarService {
     Knjizicar updateKnjizicar(Long id, Knjizicar knjizicar);
     
     void deleteKnjizicar(Long id);
+
+	
 }

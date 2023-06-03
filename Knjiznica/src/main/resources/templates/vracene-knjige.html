@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vraćene knjige</title>
+</head>
+<body>
+    <h1>Vraćene knjige za studenta: <span th:text="${student.ime}"></span></h1>
+    <table>
+        <tr>
+            <th>Naziv</th>
+            <th>Autor</th>
+        </tr>
+        <tr th:each="knjiga : ${vraceneKnjige}">
+            <td th:text="${knjiga.naziv}"></td>
+            <td th:text="${knjiga.autor}"></td>
+        </tr>
+    </table>
+</body>
+</html>

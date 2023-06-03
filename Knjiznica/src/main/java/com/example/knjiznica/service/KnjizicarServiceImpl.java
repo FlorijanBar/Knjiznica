@@ -15,6 +15,8 @@ public class KnjizicarServiceImpl implements KnjizicarService{
 	@Autowired
     private KnjizicarRepository knjizicarRepository;
 	
+	
+	
 	@Override
     public Knjizicar createKnjizicar(Knjizicar knjizicar) {
         return knjizicarRepository.save(knjizicar);
@@ -48,5 +50,6 @@ public class KnjizicarServiceImpl implements KnjizicarService{
     public void deleteKnjizicar(Long id) {
         knjizicarRepository.deleteById(id);
     }
+   
 }
     

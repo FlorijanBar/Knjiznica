@@ -39,92 +39,45 @@ public class KorisnikController {
     private KorisnikService korisnikService;
 
 
-        @PostMapping("/login")
-        public ResponseEntity<?> login(@RequestParam("email") String email, @RequestParam("lozinka") String lozinka) {
-            Korisnik korisnik = korisnikService.login(email, lozinka);
-            if (korisnik != null) {
-             
-                return ResponseEntity.ok().build();
-            } else {
-             
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
-        }
-        
-        
-        @GetMapping("/login")
-        public String showLoginForm(Model model) {
-            model.addAttribute("korisnik", new Korisnik());
-            return "login";
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<?> register(@ModelAttribute Korisnik korisnik) {
+        Korisnik existingKorisnik = korisnikService.findByEmail(korisnik.getEmail());
+        if (existingKorisnik != null) {
+            String errorMessage = "Korisnik već postoji";
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
         }
 
-        @PostMapping("/logout")
-        public ResponseEntity<?> logout() {
-           
-            return ResponseEntity.ok().build();
+        try {
+            Korisnik registeredKorisnik = korisnikService.register(korisnik);
+            return ResponseEntity.ok(registeredKorisnik);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-       
+    }
 
-        @GetMapping("/{id}")
-        public ResponseEntity<?> getKorisnikById(@PathVariable Long id) {
-            Korisnik korisnik = korisnikService.getKorisnik(id);
-            if (korisnik != null) {
-                return ResponseEntity.ok(korisnik);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<Korisnik> login(@RequestParam("email") String email, @RequestParam("lozinka") String lozinka) {
+        Korisnik loggedKorisnik = korisnikService.login(email, lozinka);
+        if (loggedKorisnik != null) {
+            return ResponseEntity.ok(loggedKorisnik);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+    
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("korisnik", new Korisnik());
+        return "register";
+    }
 
-        @GetMapping("/all")
-        public ResponseEntity<?> getAllKorisnici() {
-            List<Korisnik> korisnici = korisnikService.getAllKorisnici();
-            return ResponseEntity.ok(korisnici);
-        }
-
-        @PostMapping("/{id}/update")
-        public ResponseEntity<?> updateKorisnik(@PathVariable Long id, @RequestBody Korisnik korisnik) {
-            Korisnik updatedKorisnik = korisnikService.updateKorisnik(id, korisnik);
-            if (updatedKorisnik != null) {
-                return ResponseEntity.ok(updatedKorisnik);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        }
-
-        @PostMapping("/{id}/delete")
-        public ResponseEntity<?> deleteKorisnik(@PathVariable Long id) {
-            boolean deleted = korisnikService.deleteKorisnik(id);
-            if (deleted) {
-                return ResponseEntity.ok().build();
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        
-        }
-        @GetMapping("/register")
-        public String showRegisterForm(Model model) {
-            model.addAttribute("korisnik", new Korisnik());
-            return "register";
-        }
-
-        @PostMapping(value = "/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-        public ResponseEntity<Korisnik> registerKorisnik(@ModelAttribute Korisnik korisnik) {
-            try {
-                if (korisnikService.findByEmail(korisnik.getEmail()) != null) {
-                    return ResponseEntity.status(HttpStatus.CONFLICT).build();
-                }
-
-                Korisnik noviKorisnik = korisnikService.registerKorisnik(korisnik);
-
-                if (noviKorisnik != null) {
-                    return ResponseEntity.status(HttpStatus.CREATED).body(noviKorisnik);
-                } else {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                }
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).build();
-            }
-        }
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        model.addAttribute("korisnik", new Korisnik());
+        return "login";
+    }
 
 
 

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.knjiznica.model.Knjizicar;
 import com.example.knjiznica.model.Student;
@@ -53,9 +55,18 @@ public class StudentController {
     }
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Student> createStudent(@ModelAttribute Student student) {
+    public ModelAndView createStudent(@ModelAttribute Student student) {
         Student createdStudent = studentService.createStudent(student);
-        return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
+        // Provjera uspješnosti stvaranja knjige
+        if (createdStudent != null) {
+            // Preusmjeravanje korisnika na stranicu koja prikazuje sve knjige
+            return new ModelAndView("redirect:/student/all");
+        } else {
+            // Prikazivanje poruke o greški na istoj stranici
+            ModelAndView modelAndView = new ModelAndView("knjiga");
+            modelAndView.addObject("errorMessage", "Došlo je do pogreške prilikom stvaranja knjige.");
+            return modelAndView;
+        }
     }
 
     @GetMapping("/{id}/update")
@@ -70,12 +81,13 @@ public class StudentController {
     }
     
     @PostMapping("/{id}/update")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @ModelAttribute Student studentData) {
+    public ModelAndView updateStudent(@PathVariable Long id, @ModelAttribute Student studentData) {
         Student updateStudent = studentService.updateStudent(id, studentData);
         if (updateStudent != null) {
-            return new ResponseEntity<>(updateStudent, HttpStatus.OK);
+            RedirectView redirect = new RedirectView("/student/all");
+            return new ModelAndView(redirect);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ModelAndView("error-page"); // Stranica za prikaz greške
         }
     }
 

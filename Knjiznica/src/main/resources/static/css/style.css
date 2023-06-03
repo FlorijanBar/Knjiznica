@@ -33,13 +33,25 @@ input[type="number"] {
   margin-bottom: 10px;
 }
 
-button {
-  background-color: #4caf50;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
+.navigation {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #eaeaea;
+  color: #333;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.button:hover {
+  background-color: #ccc;
+}
+
 
 table {
   width: 100%;

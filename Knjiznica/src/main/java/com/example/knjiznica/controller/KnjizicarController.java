@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.knjiznica.model.Knjiga;
 import com.example.knjiznica.model.Knjizicar;
+import com.example.knjiznica.model.Student;
 import com.example.knjiznica.service.KnjizicarService;
+import com.example.knjiznica.service.StudentService;
 
 @Controller
 @RequestMapping("/knjizicar")
@@ -22,6 +26,8 @@ public class KnjizicarController {
 	
 	@Autowired
     private KnjizicarService knjizicarService;
+	@Autowired
+    private StudentService studentService;
 	
 	
 	 @GetMapping("/all")
@@ -52,9 +58,18 @@ public class KnjizicarController {
     }
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Knjizicar> createKnjizicar(@ModelAttribute Knjizicar knjizicar) {
+    public ModelAndView createKnjizicar(@ModelAttribute Knjizicar knjizicar) {
         Knjizicar createdKnjizicar = knjizicarService.createKnjizicar(knjizicar);
-        return new ResponseEntity<>(createdKnjizicar, HttpStatus.CREATED);
+        // Provjera uspješnosti stvaranja knjige
+        if (createdKnjizicar != null) {
+            // Preusmjeravanje korisnika na stranicu koja prikazuje sve knjige
+            return new ModelAndView("redirect:/knjizicar/all");
+        } else {
+            // Prikazivanje poruke o greški na istoj stranici
+            ModelAndView modelAndView = new ModelAndView("knjizicar");
+            modelAndView.addObject("errorMessage", "Došlo je do pogreške prilikom stvaranja knjige.");
+            return modelAndView;
+        }
     }
 
     @GetMapping("/{id}/update")
@@ -69,12 +84,13 @@ public class KnjizicarController {
     }
     
     @PostMapping("/{id}/update")
-    public ResponseEntity<Knjizicar> updateKnjizicar(@PathVariable Long id, @ModelAttribute Knjizicar knjizicarData) {
+    public ModelAndView updateKnjizicar(@PathVariable Long id, @ModelAttribute Knjizicar knjizicarData) {
         Knjizicar updateKnjizicar = knjizicarService.updateKnjizicar(id, knjizicarData);
         if (updateKnjizicar != null) {
-            return new ResponseEntity<>(updateKnjizicar, HttpStatus.OK);
+            RedirectView redirect = new RedirectView("/knjizicar/all");
+            return new ModelAndView(redirect);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ModelAndView("error-page"); // Stranica za prikaz greške
         }
     }
 
@@ -98,6 +114,7 @@ public class KnjizicarController {
         model.addAttribute("knjizicar", knjizicar);
         return "knjizicari";
     }
+    
 
 }
 

@@ -15,9 +15,21 @@ public interface StudentKnjigaService {
 
 	void vratiKnjigu(StudentKnjiga izdanaKnjiga);
 
-	boolean isKnjigaIzdata(Knjiga knjiga);
+	
 
 	List<StudentKnjiga> getIzdateKnjigeZaStudenta(Student student);
+
+	StudentKnjiga findByStudentAndKnjiga(Student student, Knjiga knjiga);
+
+	List<StudentKnjiga> findByKnjiga(Knjiga knjiga);
+
+	boolean isKnjigaIzdata(Student student, Knjiga knjiga);
+
+	List<StudentKnjiga> getAllIzdaneKnjigeByStudent(Student student);
+
+	List<Knjiga> getVraceneKnjigeZaStudenta(Long studentId);
+
+	
 
 	
 

@@ -6,17 +6,6 @@
 </head>
 <body>
 
-<h1>Dodavanje knjige</h1>
-<form th:action="@{/api/knjiga/create}" method="post">
-    <label for="naziv">Naziv:</label>
-    <input type="text" id="naziv" name="naziv" required>
-    <br>
-    <label for="autor">Autor:</label>
-    <input type="text" id="autor" name="autor" required>
-    <br>
-    <input type="submit" value="Dodaj">
-</form>
-
 <h1>Sve knjige</h1>
 <table>
     <tr>
@@ -38,7 +27,7 @@
 </table>
 
 <h1>Izdavanje knjige</h1>
-<form th:action="@{/api/knjiga/{knjigaId}/izdaj/{studentId}(knjigaId=${knjiga.id},studentId=${student.id})}" method="post">
+<form th:action="@{/api/knjiga/izdaj}" method="post">
     <label for="student">Student:</label>
     <select id="student" name="studentId" required>
         <option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.ime} + ' ' + ${student.prezime}"></option>
@@ -49,11 +38,11 @@
         <option th:each="knjiga : ${knjige}" th:value="${knjiga.id}" th:text="${knjiga.naziv}"></option>
     </select>
     <br>
-     <br>
+    <br>
     <label for="datumIzdavanja">Datum izdavanja:</label>
     <input type="date" id="datumIzdavanja" name="datumIzdavanja" required>
     <br>
-     <br>
+    <br>
     <label for="datumVracanja">Datum vraćanja:</label>
     <input type="date" id="datumVracanja" name="datumVracanja" required>
     <br>
@@ -61,8 +50,10 @@
 </form>
 
 
+
+
 <h1>Provjera statusa izdavanja knjige</h1>
-<form th:action="@{/api/knjiga/{knjigaId}/status(knjigaId=${knjigaId})}" method="get">
+<form id="provjeraForma" th:action="@{/api/knjiga/{knjigaId}/status(knjigaId=${knjigaId})}" method="get">
     <label for="knjigaStatus">Unesite ID knjige:</label>
     <input type="text" id="knjigaStatus" name="knjigaId" required>
     <br>
@@ -70,22 +61,57 @@
 </form>
 
 <h1>Pregled izdanih knjiga za studenta</h1>
-<form th:action="@{/api/knjiga/student/{studentId}/izdane-knjige(studentId=${studentId})}" method="get">
+<form id="pregledIzdanihKnjigaForm" th:action="@{/api/knjiga/student/{studentId}/izdane-knjige(studentId=${studentId})}" method="get">
     <label for="studentIzdaneKnjige">Unesite ID studenta:</label>
     <input type="text" id="studentIzdaneKnjige" name="studentId" required>
     <br>
     <input type="submit" value="Prikaži">
 </form>
 <h1>Vraćanje knjige</h1>
-<form th:action="@{/api/knjiga/vratiKnjigu/{studentId}/{knjigaId}(studentId=${studentId}, knjigaId=${knjigaId})}" method="post">
-      <label for="studentId">ID studenta:</label>
-        <input type="number" id="studentId" name="studentId" required><br><br>
+<form th:action="@{/api/knjiga/vratiKnjigu}" method="post">
+    <label for="studentId">Student:</label>
+    <select id="studentId" name="studentId" required>
+        <option value="">Odaberite studenta</option>
+        <option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.id + ' - ' + student.ime + ' ' + student.prezime}"></option>
+    </select><br><br>
 
-        <label for="knjigaId">ID knjige:</label>
-        <input type="number" id="knjigaId" name="knjigaId" required><br><br>
+    <label for="knjigaId">Knjiga:</label>
+    <select id="knjigaId" name="knjigaId" required>
+        <option value="">Odaberite knjigu</option>
+        <option th:each="knjiga : ${knjige}" th:value="${knjiga.id}" th:text="${knjiga.naziv}"></option>
+    </select><br><br>
 
-        <input type="submit" value="Vrati knjigu">
-    </form>
+    <input type="submit" value="Vrati knjigu">
+</form>
 
+
+
+
+
+<script>
+
+        
+        
+document.getElementById('provjeraForma').addEventListener('submit', function(e) {
+            e.preventDefault(); // Spriječi podnošenje obrasca
+
+            var knjigaId = document.getElementById('knjigaStatus').value; // Dohvati uneseni ID knjige
+            var form = this;
+
+            form.action = '/api/knjiga/' + knjigaId + '/status'; // Ažuriraj akcijsku putanju s novim ID-om knjige
+            form.submit(); // Podnesi obrazac
+        });
+        
+document.getElementById('pregledIzdanihKnjigaForm').addEventListener('submit', function(e) {
+          e.preventDefault(); // Spriječi podnošenje obrasca
+
+          var studentId = document.getElementById('studentIzdaneKnjige').value; // Dohvati ID odabranog studenta
+          var form = this;
+
+          form.action = '/api/knjiga/student/' + studentId + '/izdane-knjige'; // Ažuriraj akcijsku putanju s novim ID-om studenta
+          form.submit(); // Podnesi obrazac
+      });
+        
+</script>
 </body>
 </html>

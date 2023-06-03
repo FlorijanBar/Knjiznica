@@ -5,20 +5,20 @@ import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.example.knjiznica.model.Korisnik;
 
+@Service
 public interface KorisnikService {
+
+	Korisnik register(Korisnik korisnik);
+
+	Korisnik login(String email, String lozinka);
+
+	Korisnik findByEmail(String email);
     
     
 
-	Optional<Korisnik> findByEmail(String email);
-	Korisnik registerKorisnik(Korisnik korisnik);
-	void promijeniEmail(String email, String noviEmail);
-	void promijeniLozinku(String email, String novaLozinka);
-	Korisnik login(String email, String lozinka);
-	Korisnik getKorisnik(Long id);
-	Korisnik updateKorisnik(Long id, Korisnik korisnikData);
-	boolean deleteKorisnik(Long id);
-	List<Korisnik> getAllKorisnici();
+
 }
