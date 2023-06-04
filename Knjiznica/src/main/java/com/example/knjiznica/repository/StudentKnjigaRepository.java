@@ -1,5 +1,6 @@
 package com.example.knjiznica.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +18,10 @@ public interface StudentKnjigaRepository extends JpaRepository<StudentKnjiga, Lo
     StudentKnjiga findByStudentAndKnjiga(Student student, Knjiga knjiga);
     List<StudentKnjiga> findAllByStudentAndDatumVracanjaIsNull(Student student);
     List<StudentKnjiga> findAllByStudentIdAndDatumVracanjaIsNotNull(Long studentId);
-
+    List<StudentKnjiga> findAllByDatumVracanjaIsNullAndDatumIzdavanjaBefore(LocalDate date);
+    StudentKnjiga findByStudentAndKnjigaAndDatumVracanjaIsNull(Student student, Knjiga knjiga);
+    List<StudentKnjiga> findByDatumVracanjaIsNull();
+    List<StudentKnjiga> findByDatumVracanjaIsNotNullAndDatumVracanjaBefore(LocalDate date);
+    
     }
 

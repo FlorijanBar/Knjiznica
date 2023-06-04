@@ -5,16 +5,27 @@
     <title>Vraćene knjige</title>
 </head>
 <body>
-    <h1>Vraćene knjige za studenta: <span th:text="${student.ime}"></span></h1>
+    <h1>Vraćene knjige</h1>
+    
+    <h2>Student: <span th:text="${student.ime}"></span></h2>
+    
     <table>
-        <tr>
-            <th>Naziv</th>
-            <th>Autor</th>
-        </tr>
-        <tr th:each="knjiga : ${vraceneKnjige}">
-            <td th:text="${knjiga.naziv}"></td>
-            <td th:text="${knjiga.autor}"></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Naziv knjige</th>
+                <th>Autor</th>
+             
+            </tr>
+        </thead>
+     
+        
+        <tbody>
+            <tr th:each="knjiga : ${vraceneKnjige}">
+                <td th:text="${knjiga.naziv}"></td>
+                <td th:text="${knjiga.autor}"></td>
+            
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>

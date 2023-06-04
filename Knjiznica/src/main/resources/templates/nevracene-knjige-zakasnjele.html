@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nevraćene knjige</title>
+</head>
+<body>
+    <h1>Nevraćene knjige</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naslov</th>
+                <th>Autor</th>
+                <th>Datum izdavanja</th>
+                <th>Datum vraćanja</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Prikazuje redove za svaku nevraćenu knjigu -->
+            <tr th:each="knjiga : ${nevraceneKnjige}">
+                <td th:text="${knjiga.id}"></td>
+                <td th:text="${knjiga.knjiga.naziv}"></td>
+                <td th:text="${knjiga.knjiga.autor}"></td>
+                <td th:text="${knjiga.datumIzdavanja}"></td>
+                <td th:text="${knjiga.datumVracanja}"></td>
+                <td>
+                    <!-- Gumb za slanje obavijesti -->
+                    <form th:action="@{/api/knjiga/posaljiObavijest}" method="post">
+                        <input type="hidden" name="studentKnjigaId" th:value="${knjiga.id}" />
+                        <button type="submit">Pošalji obavijest</button>
+                    </form>
+                </td>
+                 <td>
+                    <!-- Gumb za vraćanje knjige -->
+                    <form th:action="@{/api/knjiga/vratiKnjigu}" method="post">
+                        <input type="hidden" name="studentKnjigaId" th:value="${knjiga.id}" />
+                        <button type="submit" onclick="return confirm('Jeste li sigurni da želite vratiti ovu knjigu?')">Vrati knjigu</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <script>
+        // JavaScript funkcija za ažuriranje tablice nakon vraćanja knjige
+        function updateTable() {
+            location.reload(); // Ponovno učitaj stranicu kako bi se ažurirao prikaz
+        }
+    </script>
+    
+</body>
+</html>

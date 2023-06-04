@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +17,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import com.example.knjiznica.model.Knjiga;
 import com.example.knjiznica.model.Student;
 import com.example.knjiznica.model.StudentKnjiga;
 import com.example.knjiznica.repository.StudentKnjigaRepository;
+import com.example.knjiznica.service.EmailService;
 import com.example.knjiznica.service.KnjigaService;
 import com.example.knjiznica.service.StudentKnjigaService;
 import com.example.knjiznica.service.StudentService;
@@ -34,6 +38,9 @@ public class KnjigaController {
     
     @Autowired
     private StudentKnjigaService studentKnjigaService;
+    
+    @Autowired
+    private EmailService emailService; // Trebate prilagoditi ovisno o implementaciji vaše usluge slanja e-pošte
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
@@ -211,42 +218,53 @@ public class KnjigaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student ili knjiga nisu pronađeni.");
         }
 
-        // Provjeri je li knjiga stvarno izdana studentu
-        if (!studentKnjigaService.isKnjigaIzdata(student, knjiga)) {
+        // Pronađite postojeći zapis o izdavanju knjige
+        StudentKnjiga izdanaKnjiga = studentKnjigaService.getIzdanaKnjiga(student, knjiga);
+
+        if (izdanaKnjiga == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Knjiga nije izdana studentu.");
         }
 
-        // Stvaranje objekta StudentKnjiga s dobivenim studentom i knjigom
-        StudentKnjiga izdanaKnjiga = new StudentKnjiga();
-        izdanaKnjiga.setStudent(student);
-        izdanaKnjiga.setKnjiga(knjiga);
-        izdanaKnjiga.setDatumVracanja(LocalDate.now()); // Postavite datum vraćanja na trenutni datum
+        // Provjerite je li knjiga već vraćena
+        if (izdanaKnjiga.getDatumVracanja() != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Knjiga je već vraćena.");
+        }
+
+        // Postavite datum vraćanja na trenutni datum
+        izdanaKnjiga.setDatumVracanja(LocalDate.now());
 
         studentKnjigaService.vratiKnjigu(izdanaKnjiga);
         return ResponseEntity.ok("Knjiga je vraćena.");
     }
 
-
     @GetMapping("/vratiKnjigu")
-    public String getIzdaneKnjige(@RequestParam("studentId") Long studentId, Model model) {
-        Student student = studentService.getStudent(studentId);
+    public String prikaziNevraceneKnjige(Model model) {
+        LocalDate currentDate = LocalDate.now();
+        List<StudentKnjiga> nevraceneKnjige = studentKnjigaService.getKnjigeNisuVracene();
 
-        if (student == null) {
-            return "error";
+        List<StudentKnjiga> nevrateneNeposlaneKnjige = new ArrayList<>();
+
+        for (StudentKnjiga knjiga : nevraceneKnjige) {
+            LocalDate datumVracanja = knjiga.getDatumVracanja();
+
+            if (datumVracanja != null && datumVracanja.isBefore(currentDate) && !knjiga.isObavijestPoslana()) {
+                nevrateneNeposlaneKnjige.add(knjiga);
+            }
         }
 
-        List<StudentKnjiga> izdaneKnjige = studentKnjigaService.getAllIzdaneKnjigeByStudent(student);
-        List<Knjiga> knjige = new ArrayList<>();
-
-        for (StudentKnjiga izdanaKnjiga : izdaneKnjige) {
-            knjige.add(izdanaKnjiga.getKnjiga());
-        }
-
-        model.addAttribute("student", student);
-        model.addAttribute("knjige", knjige);
-
-        return "izdane-knjige";
+        model.addAttribute("nevraceneKnjige", nevraceneKnjige);
+        return "nevracene-knjige";
     }
+  
+    @GetMapping("/nevraceneKnjige")
+    public String getPrikaziNevraceneKnjige(Model model) {
+        List<StudentKnjiga> nevraceneKnjige = studentKnjigaService.getNevraceneKnjige();
+        model.addAttribute("nevraceneKnjige", nevraceneKnjige);
+        return "nevracene-knjige-zakasnjele";
+    }
+
+    
+    
     @GetMapping("/vraceneKnjige/{studentId}")
     public String prikaziVraceneKnjige(@PathVariable("studentId") Long studentId, Model model) {
         Student student = studentService.getStudent(studentId);
@@ -257,6 +275,42 @@ public class KnjigaController {
         model.addAttribute("student", student);
         model.addAttribute("vraceneKnjige", vraceneKnjige);
         return "vracene-knjige";
+    }
+
+
+    @GetMapping("/printBorrowedBooks")
+    public String printBorrowedBooks(Model model) {
+        List<StudentKnjiga> borrowedKnjige = studentKnjigaService.getAllIzdaneKnjigeByStudent(null);
+        model.addAttribute("borrowedKnjige", borrowedKnjige);
+        return "print-borrowed-books";
+    }
+
+
+
+   
+    
+
+    @PostMapping("/posaljiObavijest")
+    public ResponseEntity<String> posaljiObavijest(@RequestParam("studentKnjigaId") Long studentKnjigaId) {
+        Optional<StudentKnjiga> optionalStudentKnjiga = studentKnjigaService.findById(studentKnjigaId);
+        if (optionalStudentKnjiga.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("StudentKnjiga nije pronađena.");
+        }
+
+        StudentKnjiga studentKnjiga = optionalStudentKnjiga.get();
+
+        // Logika slanja obavijesti
+        if (studentKnjiga.getDatumVracanja() != null && studentKnjiga.getDatumVracanja().isBefore(LocalDate.now())) {
+            // Datum vraćanja je prošao, šaljemo obavijest
+            String primalac = studentKnjiga.getStudent().getEmail();
+            String naslov = "Vaša knjiga je istekla";
+            String poruka = "Poštovani, \n\nOva poruka je automatska obavijest da je rok za vraćanje knjige istekao. Molimo vas da knjigu vratite u najkraćem mogućem roku.\n\nHvala.";
+            
+            // Slanje emaila
+            emailService.posaljiEmail(primalac, naslov, poruka);
+        }
+
+        return ResponseEntity.ok("Obavijest je poslana.");
     }
 
 

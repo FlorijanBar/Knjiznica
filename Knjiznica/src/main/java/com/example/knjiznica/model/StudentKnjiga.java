@@ -39,6 +39,8 @@ public class StudentKnjiga {
     @Column(name = "DatumVracanja")
     private LocalDate datumVracanja;
 
+    @Column(name = "ObavijestPoslana")
+    private Boolean obavijestPoslana;
     
     
 	public StudentKnjiga() {
@@ -46,15 +48,17 @@ public class StudentKnjiga {
 		// TODO Auto-generated constructor stub
 	}
 
-	public StudentKnjiga(Long id, Student student, Knjiga knjiga, LocalDate datumIzdavanja, LocalDate datumVracanja) {
+
+	public StudentKnjiga(Long id, Student student, Knjiga knjiga, LocalDate datumIzdavanja, LocalDate datumVracanja,
+			boolean obavijestPoslana) {
 		super();
 		this.id = id;
 		this.student = student;
 		this.knjiga = knjiga;
 		this.datumIzdavanja = datumIzdavanja;
 		this.datumVracanja = datumVracanja;
+		this.obavijestPoslana = obavijestPoslana;
 	}
-
 
 
 	public Long getId() {
@@ -62,11 +66,9 @@ public class StudentKnjiga {
 	}
 
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 
 	public Student getStudent() {
@@ -74,11 +76,9 @@ public class StudentKnjiga {
 	}
 
 
-
 	public void setStudent(Student student) {
 		this.student = student;
 	}
-
 
 
 	public Knjiga getKnjiga() {
@@ -86,11 +86,9 @@ public class StudentKnjiga {
 	}
 
 
-
 	public void setKnjiga(Knjiga knjiga) {
 		this.knjiga = knjiga;
 	}
-
 
 
 	public LocalDate getDatumIzdavanja() {
@@ -98,11 +96,9 @@ public class StudentKnjiga {
 	}
 
 
-
 	public void setDatumIzdavanja(LocalDate datumIzdavanja) {
 		this.datumIzdavanja = datumIzdavanja;
 	}
-
 
 
 	public LocalDate getDatumVracanja() {
@@ -110,11 +106,21 @@ public class StudentKnjiga {
 	}
 
 
-
 	public void setDatumVracanja(LocalDate datumVracanja) {
 		this.datumVracanja = datumVracanja;
 	}
 
+
+	public boolean isObavijestPoslana() {
+		return obavijestPoslana;
+	}
+
+
+	public void setObavijestPoslana(boolean obavijestPoslana) {
+		this.obavijestPoslana = obavijestPoslana;
+	}
+
+	
 
 	  
 }

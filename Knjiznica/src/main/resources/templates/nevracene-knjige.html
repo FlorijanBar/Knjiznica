@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nevraćene knjige</title>
+</head>
+<body>
+    <h1>Nevraćene knjige</h1>
+    <table>
+        <tr>
+            <th>Student</th>
+            <th>Knjiga</th>
+            <th>Datum izdavanja</th>
+        </tr>
+        <tr th:each="knjiga : ${nevraceneKnjige}">
+    <td th:text="${knjiga.student.ime}"></td>
+    <td th:text="${knjiga.knjiga.naziv}"></td>
+    <td th:text="${knjiga.datumIzdavanja}"></td>
+    <td>
+        <form th:action="@{/api/knjiga/vratiKnjigu}" method="post">
+            <input type="hidden" name="studentId" th:value="${knjiga.student.id}" />
+            <input type="hidden" name="knjigaId" th:value="${knjiga.knjiga.id}" />
+            <button type="submit">Vrati knjigu</button>
+        </form>
+    </td>
+</tr>
+
+    </table>
+</body>
+</html>
