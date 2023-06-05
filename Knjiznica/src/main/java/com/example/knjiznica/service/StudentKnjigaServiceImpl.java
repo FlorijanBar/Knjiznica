@@ -42,22 +42,24 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
 	        izdanaKnjiga.setDatumVracanja(LocalDate.now());
 	        studentKnjigaRepository.save(izdanaKnjiga);
 	    }
-
-	    @Override
+        @Override
 	    public boolean isKnjigaIzdata(Student student, Knjiga knjiga) {
-	        List<StudentKnjiga> izdateKnjige = studentKnjigaRepository.findByKnjiga(knjiga);
-	        return izdateKnjige.stream().anyMatch(sk -> sk.getStudent().equals(student));
+	        List<StudentKnjiga> izdaneKnjige = studentKnjigaRepository.findByStudentAndKnjiga(student, knjiga);
+	        for (StudentKnjiga studentKnjiga : izdaneKnjige) {
+	            if (studentKnjiga.getDatumVracanja() == null) {
+	                return true; // Knjiga je izdana ako postoji izdana knjiga bez datuma vraćanja
+	            }
+	        }
+	        return false; // Knjiga nije izdana ako ne postoji izdana knjiga bez datuma vraćanja
 	    }
+
 
 
 	    @Override
 	    public List<StudentKnjiga> getIzdateKnjigeZaStudenta(Student student) {
 	        return studentKnjigaRepository.findByStudent(student);
 	    }
-	    @Override
-	    public StudentKnjiga findByStudentAndKnjiga(Student student, Knjiga knjiga) {
-	        return studentKnjigaRepository.findByStudentAndKnjiga(student, knjiga);
-	    }
+	  
 	    @Override
 	    public List<StudentKnjiga> findByKnjiga(Knjiga knjiga) {
 	        return studentKnjigaRepository.findByKnjiga(knjiga);

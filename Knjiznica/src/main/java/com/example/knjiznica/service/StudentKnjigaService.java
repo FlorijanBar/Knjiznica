@@ -21,7 +21,7 @@ public interface StudentKnjigaService {
 
 	List<StudentKnjiga> getIzdateKnjigeZaStudenta(Student student);
 
-	StudentKnjiga findByStudentAndKnjiga(Student student, Knjiga knjiga);
+	
 
 	List<StudentKnjiga> findByKnjiga(Knjiga knjiga);
 

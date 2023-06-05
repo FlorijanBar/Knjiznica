@@ -15,7 +15,7 @@ public interface StudentKnjigaRepository extends JpaRepository<StudentKnjiga, Lo
 
     List<StudentKnjiga> findByStudent(Student student);
     List<StudentKnjiga> findByKnjiga(Knjiga knjiga);
-    StudentKnjiga findByStudentAndKnjiga(Student student, Knjiga knjiga);
+    List<StudentKnjiga> findByStudentAndKnjiga(Student student, Knjiga knjiga);
     List<StudentKnjiga> findAllByStudentAndDatumVracanjaIsNull(Student student);
     List<StudentKnjiga> findAllByStudentIdAndDatumVracanjaIsNotNull(Long studentId);
     List<StudentKnjiga> findAllByDatumVracanjaIsNullAndDatumIzdavanjaBefore(LocalDate date);

@@ -266,6 +266,7 @@ public class KnjigaController {
         }
 
         StudentKnjiga izdanaKnjiga = studentKnjigaService.izdajKnjigu(student, knjiga, datumIzdavanja, rokVracanja);
+        izdanaKnjiga.setDatumVracanja(null);
 
         if (izdanaKnjiga == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Greška prilikom izdavanja knjige.");
