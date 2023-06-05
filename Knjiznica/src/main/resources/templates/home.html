@@ -4,22 +4,55 @@
     <meta charset="UTF-8">
     <title>Naslovna stranica</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url("https://www.mev.hr/wp-content/uploads/2021/05/Medimursko-veleuc%CC%8Cilis%CC%8Cte-u-C%CC%8Cakovcu-MEV.jpg");
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
-    <h2>Dobrodošli na naslovnu stranicu</h2>
-    
-    <!-- Navigacija -->
-    <ul>
-        <li><a href="/">Naslovna</a></li>
-        <li><a href="/api/knjiga/all">Knjiga - sve</a></li>
-        <li><a href="/knjizicar/all">Knjizicari - sve</a></li>
-        <li><a href="/student/all">Studetni - sve</a></li>
-        <li><a href="/api/knjiga/izdavanje-knjige">Izdaj knjigu</a></li> <!-- Dodajte ovu liniju -->
-    </ul>
-    <div class="navigation">
-        <a href="/api/knjiga/all" class="button">Knjige</a>
-        <a href="/student/all" class="button">Studenti</a>
-        <a href="/knjizicar/all" class="button">Knjizicari</a>
-        <a href="/api/knjiga/izdavanje-knjige" class="button">Izdaj Knjigu</a>
+    <div class="container">
+        <h2>Dobrodošli na naslovnu stranicu</h2>
+
+        <!-- Navigacija -->
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Naslovna</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/knjiga/all">Knjige - sve</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/knjizicar/all">Knjižničari - sve</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/student/all">Studenti - sve</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/knjiga/izdaj">Izdaj knjigu</a>
+            </li>
+        </ul>
+
+        <div class="row">
+            <div class="col">
+                <a href="/api/knjiga/all" class="btn btn-primary">Knjige</a>
+            </div>
+            <div class="col">
+                <a href="/student/all" class="btn btn-primary">Studenti</a>
+            </div>
+            <div class="col">
+                <a href="/knjizicar/all" class="btn btn-primary">Knjižničari</a>
+            </div>
+            <div class="col">
+                <a href="/api/knjiga/izdaj" class="btn btn-primary">Izdaj knjigu</a>
+            </div>
+        </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

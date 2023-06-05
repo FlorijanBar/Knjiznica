@@ -3,32 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Search Results</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Search Results</h1>
-    
-    <form action="/api/knjiga/search" method="get">
-        <input type="text" name="naziv" placeholder="Search by title">
-        <button type="submit">Search</button>
-    </form>
-    
-    <table>
-         <tr>
-            <th>Naziv</th>
-            <th>Autor</th>
-            <th>Godina Izdanja</th>
-            <th>Broj Stranica</th>
-            <th>Oznaka</th>
-            <th>Inventurni Broj</th>
-        </tr>
-        <tr th:each="knjiga : ${books}">
-            <td th:text="${knjiga.naziv}"></td>
-            <td th:text="${knjiga.autor}"></td>
-            <td th:text="${knjiga.godina_izdanja}"></td>
-            <td th:text="${knjiga.broj_stranica}"></td>
-            <td th:text="${knjiga.oznaka}"></td>
-            <td th:text="${knjiga.inventurni_broj}"></td>
-        </tr>
-    </table>
+    <div class="container">
+        <h1>Search Results</h1>
+        
+        <form class="form-inline mb-3" action="/api/knjiga/search" method="get">
+            <input type="text" class="form-control mr-2" name="naziv" placeholder="Search by title">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        
+        <table class="table">
+             <tr>
+                <th>Naziv</th>
+                <th>Autor</th>
+                <th>Godina Izdanja</th>
+                <th>Broj Stranica</th>
+                <th>Oznaka</th>
+                <th>Inventurni Broj</th>
+            </tr>
+            <tr th:each="knjiga : ${books}">
+                <td th:text="${knjiga.naziv}"></td>
+                <td th:text="${knjiga.autor}"></td>
+                <td th:text="${knjiga.godina_izdanja}"></td>
+                <td th:text="${knjiga.broj_stranica}"></td>
+                <td th:text="${knjiga.oznaka}"></td>
+                <td th:text="${knjiga.inventurni_broj}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

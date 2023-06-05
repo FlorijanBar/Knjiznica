@@ -13,7 +13,7 @@ import com.example.knjiznica.model.StudentKnjiga;
 @Service
 public interface StudentKnjigaService {
 
-	StudentKnjiga izdajKnjigu(Student student, Knjiga knjiga);
+	
 
 	void vratiKnjigu(StudentKnjiga izdanaKnjiga);
 
@@ -45,6 +45,18 @@ public interface StudentKnjigaService {
 
 
 	List<StudentKnjiga> getNevraceneKnjige();
+
+
+	List<StudentKnjiga> getNevraceneKnjigePoStudentu(Long studentId);
+
+	StudentKnjiga izdajKnjigu(Student student, Knjiga knjiga, LocalDate datumIzdavanja,LocalDate rokVracanja);
+
+
+
+	StudentKnjiga getIzdanaKnjigaa(Long knjigaId);
+
+
+
 
 	
 

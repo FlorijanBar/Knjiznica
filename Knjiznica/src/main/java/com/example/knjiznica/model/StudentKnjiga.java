@@ -38,6 +38,9 @@ public class StudentKnjiga {
 
     @Column(name = "DatumVracanja")
     private LocalDate datumVracanja;
+    
+    @Column(name = "rok_vracanja")
+    private LocalDate rokVracanja;
 
     @Column(name = "ObavijestPoslana")
     private Boolean obavijestPoslana;
@@ -50,13 +53,14 @@ public class StudentKnjiga {
 
 
 	public StudentKnjiga(Long id, Student student, Knjiga knjiga, LocalDate datumIzdavanja, LocalDate datumVracanja,
-			boolean obavijestPoslana) {
+			LocalDate rokVracanja, Boolean obavijestPoslana) {
 		super();
 		this.id = id;
 		this.student = student;
 		this.knjiga = knjiga;
 		this.datumIzdavanja = datumIzdavanja;
 		this.datumVracanja = datumVracanja;
+		this.rokVracanja = rokVracanja;
 		this.obavijestPoslana = obavijestPoslana;
 	}
 
@@ -111,14 +115,25 @@ public class StudentKnjiga {
 	}
 
 
-	public boolean isObavijestPoslana() {
+	public LocalDate getRokVracanja() {
+		return rokVracanja;
+	}
+
+
+	public void setRokVracanja(LocalDate rokVracanja) {
+		this.rokVracanja = rokVracanja;
+	}
+
+
+	public Boolean getObavijestPoslana() {
 		return obavijestPoslana;
 	}
 
 
-	public void setObavijestPoslana(boolean obavijestPoslana) {
+	public void setObavijestPoslana(Boolean obavijestPoslana) {
 		this.obavijestPoslana = obavijestPoslana;
 	}
+
 
 	
 

@@ -3,8 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Knjiznica</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
     <h1>Provjera statusa izdane knjige</h1>
-    <p>Naziv knjige: <span th:text="${knjiga.naziv}"></span></p>
-    <p>Status: <span th:text="${izdata ? 'Izdana' : 'Nije izdana'}"></
+
+    <div th:if="${knjiga != null}">
+        <p>Naziv knjige: <span th:text="${knjiga.naziv}"></span></p>
+        <p>Status:</p>
+    </div>
+
+    <div th:if="${izdanaKnjiga == null || izdanaKnjiga.getDatumVracanja() != null}">
+        <p th:text="${statusPoruka}"></p>
+    </div>
+
+    <div th:if="${izdanaKnjiga != null}">
+        <h2>Detalji izdane knjige</h2>
+        <p>
+            <strong>Student:</strong> <span th:text="${izdanaKnjiga.student.ime + ' ' + izdanaKnjiga.student.prezime}"></span><br>
+            <strong>Knjiga:</strong> <span th:text="${izdanaKnjiga.knjiga.naziv}"></span><br>
+            <strong>Datum izdavanja:</strong> <span th:text="${izdanaKnjiga.datumIzdavanja}"></span><br>
+            <strong>Rok vraćanja:</strong> <span th:text="${izdanaKnjiga.rokVracanja}"></span><br>
+        </p>
+    </div>
+
+    <div th:if="${knjige != null}">
+        <h2>Sve knjige</h2>
+        <ul>
+            <li th:each="k : ${knjige}" th:text="${k.naziv}"></li>
+        </ul>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

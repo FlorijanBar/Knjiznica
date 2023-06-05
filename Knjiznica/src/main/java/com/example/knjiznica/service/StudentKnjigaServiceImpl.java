@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,22 +28,18 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
     private StudentKnjigaRepository studentKnjigaRepository;
 	
 	 @Override
-	    public StudentKnjiga izdajKnjigu(Student student, Knjiga knjiga) {
+	    public StudentKnjiga izdajKnjigu(Student student, Knjiga knjiga, LocalDate datumIzdavanja,LocalDate rokVracanja) {
 		 StudentKnjiga izdanaKnjiga = new StudentKnjiga();
 	        izdanaKnjiga.setStudent(student);
 	        izdanaKnjiga.setKnjiga(knjiga);
 	        izdanaKnjiga.setDatumIzdavanja(LocalDate.now());
-	        izdanaKnjiga.setDatumVracanja(LocalDate.now().plusDays(30));
-	        // Postavite datum vraćanja prema potrebama
-	        // Možete dodati dodatnu logiku ovdje, poput provjere dostupnosti knjige
-	        // i ažuriranja statusa knjige
+	        izdanaKnjiga.setRokVracanja(rokVracanja);
 	        return studentKnjigaRepository.save(izdanaKnjiga);
 	    }
 
 	    @Override
 	    public void vratiKnjigu(StudentKnjiga izdanaKnjiga) {
 	        izdanaKnjiga.setDatumVracanja(LocalDate.now());
-	        // Dodajte dodatnu logiku ovdje, poput ažuriranja statusa knjige
 	        studentKnjigaRepository.save(izdanaKnjiga);
 	    }
 
@@ -90,7 +87,12 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
 	 
 	    @Override
 	    public StudentKnjiga getIzdanaKnjiga(Student student, Knjiga knjiga) {
-	        return studentKnjigaRepository.findByStudentAndKnjigaAndDatumVracanjaIsNull(student,knjiga);
+	    	for (StudentKnjiga izdanaKnjiga : student.getIzdateKnjige()) {
+	            if (izdanaKnjiga.getKnjiga().equals(knjiga) && izdanaKnjiga.getDatumVracanja() == null) {
+	                return izdanaKnjiga;
+	            }
+	        }
+	        return null;
 	    }
 	    @Override
 	    public List<StudentKnjiga> getKnjigeNisuVracene() {
@@ -106,7 +108,16 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
 	    public Optional<StudentKnjiga> findById(Long id) {
 	        return studentKnjigaRepository.findById(id);
 	    }
-	    
+	    @Override
+	    public List<StudentKnjiga> getNevraceneKnjigePoStudentu(Long studentId) {
+	        LocalDate currentDate = LocalDate.now();
+	        return studentKnjigaRepository.findByStudentIdAndDatumVracanjaIsNotNullAndDatumIzdavanjaBefore(studentId, currentDate);
+	    }
+
+	    @Override
+	    public StudentKnjiga getIzdanaKnjigaa(Long knjigaId) {
+	        return studentKnjigaRepository.findFirstByKnjigaIdAndDatumVracanjaIsNull(knjigaId);
+	    }
 
 
 }

@@ -3,73 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Knjige</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-    <h2>Knjige</h2>
-    
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Naziv</th>
-            <th>Autor</th>
-            <th>Godina izdanja</th>
-            <th>Broj stranica</th>
-            <th>Oznaka</th>
-            <th>Inventurni broj</th>
-            <th>Actions</th>
-        </tr>
+    <div class="container">
+        <h2>Knjige</h2>
+         <h2>Search Books</h2>
+
+        <form th:action="@{/api/knjiga/search}" method="get">
+            <div class="form-group">
+                <label for="naziv">Naziv:</label>
+                <input type="text" id="naziv" name="naziv" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
         
-        <tr th:each="knjiga : ${knjige}">
-            <td th:text="${knjiga.id}"></td>
-            <td th:text="${knjiga.naziv}"></td>
-            <td th:text="${knjiga.autor}"></td>
-            <td th:text="${knjiga.godina_izdanja}"></td>
-            <td th:text="${knjiga.broj_stranica}"></td>
-            <td th:text="${knjiga.oznaka}"></td>
-            <td th:text="${knjiga.inventurni_broj}"></td>
-            <td>
-                <a th:href="@{/api/knjiga/{id}(id=${knjiga.id})}">View</a>
-                <a th:href="@{/api/knjiga/{id}/update(id=${knjiga.id})}">Update</a>
-                <a th:href="@{/api/knjiga/{id}/delete(id=${knjiga.id})}" onclick="return confirm('Are you sure?')">Delete</a>
-            </td>
-        </tr>
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Naziv</th>
+                <th>Autor</th>
+                <th>Godina izdanja</th>
+                <th>Broj stranica</th>
+                <th>Oznaka</th>
+                <th>Inventurni broj</th>
+                <th>Actions</th>
+            </tr>
+            
+            <tr th:each="knjiga : ${knjige}">
+                <td th:text="${knjiga.id}"></td>
+                <td th:text="${knjiga.naziv}"></td>
+                <td th:text="${knjiga.autor}"></td>
+                <td th:text="${knjiga.godina_izdanja}"></td>
+                <td th:text="${knjiga.broj_stranica}"></td>
+                <td th:text="${knjiga.oznaka}"></td>
+                <td th:text="${knjiga.inventurni_broj}"></td>
+                <td>
+                    <a th:href="@{/api/knjiga/{id}/update(id=${knjiga.id})}">Update</a>
+                    <a th:href="@{/api/knjiga/{id}/delete(id=${knjiga.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+           
+        </table>
+ <a href="/api/knjiga/create" class="btn btn-primary">Create Knjiga</a>
+       
         
-        <h2>Search Books</h2>
+        
+    </div>
 
-    <form th:action="@{/api/knjiga/search}" method="get">
-        <div>
-            <label for="naziv">Naziv:</label>
-            <input type="text" id="naziv" name="naziv" required>
-        </div>
-        <button type="submit">Search</button>
-    </form>
-
-    <!-- Prikaz rezultata pretraživanja -->
-    <h3>Search Results</h3>
-    <table>
-        <tr>
-            <th>Naziv</th>
-            <th>Autor</th>
-            <th>Godina Izdanja</th>
-            <th>Broj Stranica</th>
-            <th>Oznaka</th>
-            <th>Inventurni Broj</th>
-        </tr>
-        <tr th:each="knjiga : ${books}">
-            <td th:text="${knjiga.naziv}"></td>
-            <td th:text="${knjiga.autor}"></td>
-            <td th:text="${knjiga.godina_izdanja}"></td>
-            <td th:text="${knjiga.broj_stranica}"></td>
-            <td th:text="${knjiga.oznaka}"></td>
-            <td th:text="${knjiga.inventurni_broj}"></td>
-        </tr>
-    </table>
-    </table>
-    
-    <a href="/api/knjiga/create">Create Knjiga</a>
-    
-
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

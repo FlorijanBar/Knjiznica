@@ -3,28 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Unos knjižničara</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-    <h2>Unos novog knjižničara</h2>
-    
-    <form th:action="@{/knjizicar/create}" method="post">
-        <div>
-            <label for="ime">Ime:</label>
-            <input type="text" id="ime" name="ime" required>
-        </div>
-        <div>
-            <label for="prezime">Prezime:</label>
-            <input type="text" id="prezime" name="prezime" required>
-        </div>
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <button type="submit">Spremi</button>
-    </form>
-    
-    
-    <a href="/knjizicar">Povratak na popis knjižničara</a>
+    <div class="container">
+        <h2>Unos novog knjižničara</h2>
+        
+        <form th:action="@{/knjizicar/create}" method="post">
+            <div class="form-group">
+                <label for="ime">Ime:</label>
+                <input type="text" id="ime" name="ime" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="prezime">Prezime:</label>
+                <input type="text" id="prezime" name="prezime" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Spremi</button>
+        </form>
+        
+        <a href="/knjizicar">Povratak na popis knjižničara</a>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

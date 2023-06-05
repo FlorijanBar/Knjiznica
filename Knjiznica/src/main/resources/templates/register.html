@@ -2,15 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registration Form</title>
+    <title>Registracija</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-    <h2>Registration Form</h2>
-  <form action="#" th:action="@{/korisnik/register}" th:object="${korisnik}" method="post">
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="lozinka" placeholder="Lozinka" required>
-    <button type="submit">Registriraj se</button>
-</form>
-
+    <div class="container">
+        <h2>Registracija</h2>
+        <form action="#" th:action="@{/korisnik/register}" th:object="${korisnik}" method="post">
+            <div class="form-group">
+                <input type="email" class="form-control" th:field="*{email}" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" th:field="*{lozinka}" placeholder="Lozinka" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Registriraj se</button>
+        </form>
+    </div>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

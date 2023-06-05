@@ -3,27 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Ažuriranje knjižničara</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-    <h2>Ažuriranje knjižničara</h2>
+    <div class="container">
+        <h2>Ažuriranje knjižničara</h2>
+        
+        <form th:action="@{/knjizicar/{id}/update(id=${knjizicar.id})}" method="post">
+            <div class="form-group">
+                <label for="ime">Ime:</label>
+                <input type="text" id="ime" name="ime" th:value="${knjizicar.ime}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="prezime">Prezime:</label>
+                <input type="text" id="prezime" name="prezime" th:value="${knjizicar.prezime}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" th:value="${knjizicar.email}" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Spremi</button>
+        </form>
+        
+
+    </div>
     
-    <form th:action="@{/knjizicar/{id}/update(id=${knjizicar.id})}" method="post">
-        <div>
-            <label for="ime">Ime:</label>
-            <input type="text" id="ime" name="ime" th:value="${knjizicar.ime}" required>
-        </div>
-        <div>
-            <label for="prezime">Prezime:</label>
-            <input type="text" id="prezime" name="prezime" th:value="${knjizicar.prezime}" required>
-        </div>
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" th:value="${knjizicar.email}" required>
-        </div>
-        <button type="submit">Spremi</button>
-    </form>
-    
-    <a href="/knjizicar/{id}(id=${knjizicar.id})">Povratak na detalje knjižničara</a>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>
