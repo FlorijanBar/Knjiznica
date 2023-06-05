@@ -120,6 +120,19 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
 	    public StudentKnjiga getIzdanaKnjigaa(Long knjigaId) {
 	        return studentKnjigaRepository.findFirstByKnjigaIdAndDatumVracanjaIsNull(knjigaId);
 	    }
+	    @Override
+	    public StudentKnjiga getIzdanaKnjigaZaStudenta(Long knjigaId, Long studentId) {
+	        // Pretraživanje izdane knjige po ID knjige i ID studenta
+	        return studentKnjigaRepository.findByKnjigaIdAndStudentIdAndDatumVracanjaIsNull(knjigaId, studentId);
+	    }
+ @Override
+ public List<StudentKnjiga> getIzdateKnjigeZaKnjigu(Knjiga knjiga) {
+	    return studentKnjigaRepository.findByKnjigaAndDatumVracanjaIsNull(knjiga);
+	}
 
+@Override
+public List<StudentKnjiga> getIzdaneKnjigeZaStudenta(Long studentId) {
+    return studentKnjigaRepository.findByStudentIdAndDatumVracanjaIsNull(studentId);
+}
 
 }

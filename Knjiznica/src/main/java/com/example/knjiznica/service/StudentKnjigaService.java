@@ -57,6 +57,18 @@ public interface StudentKnjigaService {
 
 
 
+	StudentKnjiga getIzdanaKnjigaZaStudenta(Long knjigaId, Long studentId);
+
+
+
+	List<StudentKnjiga> getIzdateKnjigeZaKnjigu(Knjiga knjiga);
+
+
+
+	List<StudentKnjiga> getIzdaneKnjigeZaStudenta(Long studentId);
+
+
+
 
 	
 

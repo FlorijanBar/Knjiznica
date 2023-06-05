@@ -142,45 +142,49 @@ public class KnjigaController {
 
 
 
-    @GetMapping("/student/{studentId}/izdane-knjige")
-    public String getIzdaneKnjigeZaStudenta(@PathVariable("studentId") Long studentId, Model model) {
-        Student student = studentService.getStudent(studentId);
-
-        if (student == null) {
-            return "error";
-        }
-
-        List<StudentKnjiga> izdaneKnjige = studentKnjigaService.getIzdateKnjigeZaStudenta(student);
-        model.addAttribute("student", student);
-        model.addAttribute("izdaneKnjige", izdaneKnjige);
-
-        return "pregled-izdanih-knjiga";
-    }
+  
 
     @GetMapping("/{knjigaId}/status")
-    public String provjeriStatusIzdaneKnjige(@PathVariable("knjigaId") Long knjigaId, Model model) {
+    public String provjeriStatusIzdaneKnjige(@PathVariable("knjigaId") Long knjigaId,
+                                             @RequestParam(value = "studentId", required = false) Long studentId,
+                                             Model model) {
         Knjiga knjiga = knjigaService.getKnjiga(knjigaId);
 
         if (knjiga == null) {
             return "error";
         }
 
-        StudentKnjiga izdanaKnjiga = studentKnjigaService.getIzdanaKnjigaa(knjigaId);
+        if (studentId != null) {
+            Student student = studentService.getStudent(studentId);
+            StudentKnjiga izdanaKnjiga = studentKnjigaService.getIzdanaKnjigaZaStudenta(knjigaId, studentId);
 
-        if (izdanaKnjiga == null || izdanaKnjiga.getDatumVracanja() != null) {
-            model.addAttribute("knjiga", knjiga);
-            if (izdanaKnjiga != null && izdanaKnjiga.getDatumVracanja() != null) {
-                model.addAttribute("statusPoruka", "Knjiga je već vraćena.");
-            } else {
+            if (izdanaKnjiga == null || izdanaKnjiga.getDatumVracanja() != null) {
+                model.addAttribute("knjiga", knjiga);
                 model.addAttribute("statusPoruka", "Knjiga nije izdana ovom studentu.");
+                return "status-izdane-knjige";
             }
+
+            model.addAttribute("izdanaKnjiga", izdanaKnjiga);
+            model.addAttribute("student", student);
+
+            return "status-izdane-knjige-student";
+        } else {
+            List<StudentKnjiga> izdaneKnjige = studentKnjigaService.getIzdateKnjigeZaKnjigu(knjiga);
+
+            if (izdaneKnjige.isEmpty()) {
+                model.addAttribute("knjiga", knjiga);
+                model.addAttribute("statusPoruka", "Knjiga nije izdana nijednom studentu.");
+                return "status-izdane-knjige";
+            }
+
+            model.addAttribute("izdaneKnjige", izdaneKnjige);
+
             return "status-izdane-knjige";
         }
-
-        model.addAttribute("izdanaKnjiga", izdanaKnjiga);
-
-        return "status-izdane-knjige";
     }
+
+
+
 
 
     
@@ -321,6 +325,23 @@ public class KnjigaController {
         return "izdavanje-knjige"; 
     }
 
+    @GetMapping("/student/{studentId}/izdane-knjige")
+    public String prikaziIzdaneKnjigeZaStudenta(@PathVariable("studentId") Long studentId, Model model) {
+        Student student = studentService.getStudent(studentId);
+        
+        if (student == null) {
+            return "error";
+        }
+        
+        List<StudentKnjiga> izdaneKnjige = studentKnjigaService.getIzdaneKnjigeZaStudenta(studentId);
+        
+        model.addAttribute("student", student);
+        model.addAttribute("izdaneKnjige", izdaneKnjige);
+        
+        return "izdane-knjige";
+    }
+
+    
 
     
     

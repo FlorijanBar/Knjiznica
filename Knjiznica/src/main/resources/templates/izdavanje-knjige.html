@@ -64,11 +64,12 @@
             <label for="knjigaStatus">Unesite ID knjige:</label>
             <input type="text" id="knjigaStatus" name="knjigaId" required class="form-control">
         </div>
+        
         <button type="submit" class="btn btn-primary">Provjeri</button>
     </form>
 
     <h1 class="mt-4">Pregled izdanih knjiga za studenta</h1>
-    <form id="pregledIzdanihKnjigaForm" class="mt-4" th:action="@{/api/knjiga/student/{studentId}/izdane-knjige(studentId=${studentId})}" method="get">
+    <form id="pregledIzdanihKnjigaForm" class="mt-4" th:action="@{/api/knjiga/{studentId}/izdane-knjige(studentId=${studentId})}" method="get">
         <div class="form-group">
             <label for="studentIzdaneKnjige">Unesite ID studenta:</label>
             <input type="text" id="studentIzdaneKnjige" name="studentId" required class="form-control">

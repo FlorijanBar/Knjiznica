@@ -24,5 +24,8 @@ public interface StudentKnjigaRepository extends JpaRepository<StudentKnjiga, Lo
     List<StudentKnjiga> findByDatumVracanjaIsNotNullAndDatumVracanjaBefore(LocalDate date);
     List<StudentKnjiga> findByStudentIdAndDatumVracanjaIsNotNullAndDatumIzdavanjaBefore(Long studentId, LocalDate currentDate);
     StudentKnjiga findFirstByKnjigaIdAndDatumVracanjaIsNull(Long knjigaId);
+    StudentKnjiga findByKnjigaIdAndStudentIdAndDatumVracanjaIsNull(Long knjigaId, Long studentId);
+    List<StudentKnjiga> findByKnjigaAndDatumVracanjaIsNull(Knjiga knjiga);
+    List<StudentKnjiga> findByStudentIdAndDatumVracanjaIsNull(Long studentId);
     }
 
