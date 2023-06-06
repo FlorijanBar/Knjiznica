@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +44,8 @@ public class KnjigaController {
     @Autowired
     private EmailService emailService; // Trebate prilagoditi ovisno o implementaciji vaše usluge slanja e-pošte
 
+    @Autowired
+    private  JavaMailSender mailSender;
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("knjiga", new Knjiga());
@@ -342,7 +345,7 @@ public class KnjigaController {
     }
 
     
-
+    
     
     
     }

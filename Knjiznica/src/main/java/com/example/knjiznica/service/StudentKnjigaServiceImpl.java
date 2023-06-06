@@ -135,4 +135,11 @@ public List<StudentKnjiga> getIzdaneKnjigeZaStudenta(Long studentId) {
     return studentKnjigaRepository.findByStudentIdAndDatumVracanjaIsNull(studentId);
 }
 
+@Override
+public List<StudentKnjiga> getStudentiKnjigeSaProslimRokomVraćanja() {
+    LocalDate today = LocalDate.now();
+    return studentKnjigaRepository.findByRokVracanjaBeforeAndStudent_EmailIsNotNull(today);
+}
+
+
 }

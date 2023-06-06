@@ -70,6 +70,12 @@ public interface StudentKnjigaService {
 
 
 
+
+	List<StudentKnjiga> getStudentiKnjigeSaProslimRokomVraćanja();
+
+
+
+
 	
 
 	
