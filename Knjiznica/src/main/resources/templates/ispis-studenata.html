@@ -1,0 +1,16 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Knjiga</th>
+            <th>Rok vraćanja</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="studentKnjiga : ${studentiKnjige}">
+            <td th:text="${studentKnjiga.student.getIme() + ' ' + studentKnjiga.student.getPrezime()}"></td>
+            <td th:text="${studentKnjiga.knjiga.getNaziv()}"></td>
+            <td th:text="${studentKnjiga.getRokVracanja()}"></td>
+        </tr>
+    </tbody>
+</table>

@@ -141,5 +141,10 @@ public List<StudentKnjiga> getStudentiKnjigeSaProslimRokomVraćanja() {
     return studentKnjigaRepository.findByRokVracanjaBeforeAndStudent_EmailIsNotNull(today);
 }
 
+@Override
+public List<StudentKnjiga> getStudentiKnjige() {
+    return studentKnjigaRepository.findAll();
+}
+
 
 }

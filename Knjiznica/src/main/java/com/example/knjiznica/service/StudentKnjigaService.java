@@ -75,6 +75,10 @@ public interface StudentKnjigaService {
 
 
 
+	List<StudentKnjiga> getStudentiKnjige();
+
+
+
 
 	
 

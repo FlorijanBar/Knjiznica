@@ -1,6 +1,7 @@
 package com.example.knjiznica.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -26,11 +27,17 @@ public class ObavijestController {
 	 @GetMapping("/obavijesti")
 	 public String slanjeObavijesti(Model model) {
 	     List<StudentKnjiga> studentiKnjigeSaProslimRokom = studentKnjigaService.getStudentiKnjigeSaProslimRokomVraćanja();
-	     model.addAttribute("studentiKnjigeSaProslimRokom", studentiKnjigeSaProslimRokom);
+	     
+	     List<StudentKnjiga> studentiKnjigeNisuVraćene = studentiKnjigeSaProslimRokom.stream()
+	             .filter(studentKnjiga -> studentKnjiga.getDatumVracanja() == null)
+	             .collect(Collectors.toList());
+	     
+	     model.addAttribute("studentiKnjigeSaProslimRokom", studentiKnjigeNisuVraćene);
+	     
+	   
+	     
 	     return "slanje-obavijesti";
 	 }
-
-
 
 	 @GetMapping("/slanje-obavijesti")
 	 public String posaljiObavijesti() {
@@ -38,8 +45,9 @@ public class ObavijestController {
 	     for (StudentKnjiga studentKnjiga : studentiKnjigeSaProslimRokom) {
 	         posaljiEmailObavijest(studentKnjiga);
 	     }
-	     return "redirect:/obavijest/obavijesti"; // Ispravljena putanja
+	     return "redirect:/obavijest/obavijesti";
 	 }
+
 
 
 	 private void posaljiEmailObavijest(StudentKnjiga studentKnjiga) {
@@ -53,6 +61,16 @@ public class ObavijestController {
 		        // Obrada greške slanja emaila
 		    }
 		}
+	 @GetMapping("/ispis-studenata")
+	 public String ispisStudenata(Model model) {
+	     List<StudentKnjiga> studentiKnjige = studentKnjigaService.getStudentiKnjige();
+	     List<StudentKnjiga> studentiKnjigeNisuVracene = studentiKnjige.stream()
+	             .filter(studentKnjiga -> studentKnjiga.getDatumVracanja() == null)
+	             .collect(Collectors.toList());
+
+	     model.addAttribute("studentiKnjige", studentiKnjigeNisuVracene);
+	     return "ispis-studenata";
+	 }
 
 
 }
