@@ -98,6 +98,20 @@
  			<input type="date" name="datumVracanja" id="datumVracanja">
             <button type="submit" class="btn btn-primary">Vrati knjigu</button>
     </form>
+  	<h1 class="mt-4">Pregled vraćenih knjiga za studenta</h1>
+<form id="pregledVracenihKnjigaForm" class="mt-4" th:action="@{/api/knjiga/student/{studentId}/vraceneKnjige(studentId=${studentId})}" method="get">
+<input type="hidden" id="studentId" name="studentId" th:value="${studentId}" />
+
+    	<div class="form-group">
+        	<label for="studentVraceneKnjige">Odaberite studenta:</label>
+        	<select id="studentVraceneKnjige" name="studentId" class="form-control" required>
+            	<option value="">Odaberite studenta</option>
+            	<option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.ime + ' ' + student.prezime}"></option>
+        	</select>
+    	</div>
+    	<button type="submit" class="btn btn-primary">Prikaži</button>
+	</form>
+    
 </div>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -121,6 +135,8 @@
         form.action = '/api/knjiga/student/' + studentId + '/izdane-knjige'; // Ažuriraj akcijsku putanju s novim ID-om studenta
         form.submit(); // Podnesi obrazac
     });
+    
+    
 </script>
 
 </body>

@@ -68,15 +68,7 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
 	    public List<StudentKnjiga> getAllIzdaneKnjigeByStudent(Student student) {
 	        return studentKnjigaRepository.findAllByStudentAndDatumVracanjaIsNull(student);
 	    }
-	    @Override
-	    public List<Knjiga> getVraceneKnjigeZaStudenta(Long studentId) {
-	        List<StudentKnjiga> vraceneKnjige = studentKnjigaRepository.findAllByStudentIdAndDatumVracanjaIsNotNull(studentId);
-	        List<Knjiga> knjige = new ArrayList<>();
-	        for (StudentKnjiga studentKnjiga : vraceneKnjige) {
-	            knjige.add(studentKnjiga.getKnjiga());
-	        }
-	        return knjige;
-	    }
+	   
 	   
 	    @Override
 	    public List<StudentKnjiga> getOverdueKnjige() {
@@ -144,6 +136,15 @@ public List<StudentKnjiga> getStudentiKnjigeSaProslimRokomVraćanja() {
 @Override
 public List<StudentKnjiga> getStudentiKnjige() {
     return studentKnjigaRepository.findAll();
+}
+@Override
+public List<Knjiga> getVraceneKnjigeZaStudenta(Long studentId) {
+    List<StudentKnjiga> vraceneKnjige = studentKnjigaRepository.findAllByStudentIdAndDatumVracanjaIsNotNull(studentId);
+    List<Knjiga> knjige = new ArrayList<>();
+    for (StudentKnjiga studentKnjiga : vraceneKnjige) {
+        knjige.add(studentKnjiga.getKnjiga());
+    }
+    return knjige;
 }
 
 

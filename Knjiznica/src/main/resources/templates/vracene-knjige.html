@@ -6,26 +6,22 @@
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Vraćene knjige</h1>
-        
-        <h2>Student: <span th:text="${student.ime}"></span></h2>
-        
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Naziv knjige</th>
-                    <th>Autor</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="knjiga : ${vraceneKnjige}">
-                    <td th:text="${knjiga.naziv}"></td>
-                    <td th:text="${knjiga.autor}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <h1 class="mt-4">Prikaz vraćenih knjiga za studenta</h1>
+    <h2>Student: <span th:text="${student.ime}"></span></h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Naziv knjige</th>
+                <th>Autor</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="knjiga : ${vraceneKnjige}">
+                <td th:text="${knjiga.naziv}"></td>
+                <td th:text="${knjiga.autor}"></td>
+            </tr>
+        </tbody>
+    </table>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Odabir studenta</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    <h1 class="mt-4">Odabir studenta</h1>
+    <form id="odabirStudentaForm" class="mt-4" th:action="@{/api/knjiga/vraceneKnjige}" method="post">
+        <div class="form-group">
+            <label for="studentOdabir">Odaberite studenta:</label>
+            <select id="studentOdabir" name="studentId" class="form-control" required>
+                <option value="0">Odaberite studenta</option>
+                <option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.ime + ' ' + student.prezime}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Prikaži</button>
+    </form>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -187,27 +187,18 @@ public class KnjigaController {
     }
 
 
-
-
-
+ 
     
-
-
-   
-
-    @GetMapping("/nevraceneKnjige")
-    public String getPrikaziNevraceneKnjige(@RequestParam("studentId") Long studentId, Model model) {
-        List<StudentKnjiga> nevraceneKnjige = studentKnjigaService.getNevraceneKnjigePoStudentu(studentId);
-        model.addAttribute("nevraceneKnjige", nevraceneKnjige);
-        return "nevracene-knjige-zakasnjele";
+    @GetMapping("/vraceneKnjige")
+    public String prikaziFormuOdabirStudenta(Model model) {
+        List<Student> studenti = studentService.getAllStudent();
+        model.addAttribute("studenti", studenti);
+        model.addAttribute("studentId", new Long(0)); // Početna vrijednost odabira studenta
+        return "odabir-studenta";
     }
 
-
-
-    
-    
-    @GetMapping("/vraceneKnjige/{studentId}")
-    public String prikaziVraceneKnjige(@PathVariable("studentId") Long studentId, Model model) {
+    @PostMapping("/vraceneKnjige")
+    public String prikaziVraceneKnjige(@RequestParam("studentId") Long studentId, Model model) {
         Student student = studentService.getStudent(studentId);
         if (student == null) {
             return "error";
@@ -219,40 +210,8 @@ public class KnjigaController {
     }
 
 
-    @GetMapping("/printBorrowedBooks")
-    public String printBorrowedBooks(Model model) {
-        List<StudentKnjiga> borrowedKnjige = studentKnjigaService.getAllIzdaneKnjigeByStudent(null);
-        model.addAttribute("borrowedKnjige", borrowedKnjige);
-        return "print-borrowed-books";
-    }
-
-
-
-   
     
 
-    @PostMapping("/posaljiObavijest")
-    public ResponseEntity<String> posaljiObavijest(@RequestParam("studentKnjigaId") Long studentKnjigaId) {
-        Optional<StudentKnjiga> optionalStudentKnjiga = studentKnjigaService.findById(studentKnjigaId);
-        if (optionalStudentKnjiga.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("StudentKnjiga nije pronađena.");
-        }
-
-        StudentKnjiga studentKnjiga = optionalStudentKnjiga.get();
-
-        // Logika slanja obavijesti
-        if (studentKnjiga.getDatumVracanja() != null && studentKnjiga.getDatumVracanja().isBefore(LocalDate.now())) {
-            // Datum vraćanja je prošao, šaljemo obavijest
-            String primalac = studentKnjiga.getStudent().getEmail();
-            String naslov = "Vaša knjiga je istekla";
-            String poruka = "Poštovani, \n\nOva poruka je automatska obavijest da je rok za vraćanje knjige istekao. Molimo vas da knjigu vratite u najkraćem mogućem roku.\n\nHvala.";
-            
-            // Slanje emaila
-            emailService.posaljiEmail(primalac, naslov, poruka);
-        }
-
-        return ResponseEntity.ok("Obavijest je poslana.");
-    }
 
     @PostMapping("/izdaj")
     public ResponseEntity<String> izdajKnjigu(

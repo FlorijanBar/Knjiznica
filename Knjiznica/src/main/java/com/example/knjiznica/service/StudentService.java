@@ -12,7 +12,7 @@ public interface StudentService {
     
 	Student createStudent(Student student);
 
-    Iterable<Student> getAllStudent();
+    List<Student> getAllStudent();
 
 
     Student getStudent(Long id);
