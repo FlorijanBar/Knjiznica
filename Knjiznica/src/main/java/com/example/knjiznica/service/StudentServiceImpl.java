@@ -47,6 +47,7 @@ public class StudentServiceImpl implements StudentService {
         	existingStudent.setPrezime(student.getPrezime());
             existingStudent.setStudij(student.getStudij());
             existingStudent.setGodinaStudija(student.getGodinaStudija());
+            existingStudent.setEmail(student.getEmail());
             return studentRepository.save(existingStudent);
         }
         return null;

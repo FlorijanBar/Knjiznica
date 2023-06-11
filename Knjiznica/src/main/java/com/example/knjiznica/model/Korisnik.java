@@ -1,5 +1,6 @@
 package com.example.knjiznica.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 
@@ -33,7 +35,7 @@ public class Korisnik {
     @JoinColumn(name = "StudentId")
     private Student student;
     
-    @ManyToOne
+	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "KnjizicarId")
     private Knjizicar knjizicar;
     

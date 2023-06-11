@@ -4,6 +4,7 @@ import jakarta.persistence.Table;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,7 +39,7 @@ public class Student {
 	 @Column(name = "Email")
 	 private String email;
 	
-	@OneToMany(mappedBy = "student")
+	@OneToMany(mappedBy = "student",cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<StudentKnjiga> izdateKnjige;
 
 	public Student() {

@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,9 +27,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.knjiznica.model.Knjizicar;
 import com.example.knjiznica.model.Korisnik;
 import com.example.knjiznica.repository.KorisnikRepository;
 import com.example.knjiznica.service.KorisnikService;
+import com.example.knjiznica.service.KorisnikServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,10 +42,14 @@ public class KorisnikController {
 
     @Autowired
     private KorisnikService korisnikService;
+   
+    @Autowired
+    private KorisnikRepository korisnikRepository;
 
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<?> register(@ModelAttribute Korisnik korisnik) {
+        // Provjerite postoji li korisnik s istom email adresom
         Korisnik existingKorisnik = korisnikService.findByEmail(korisnik.getEmail());
         if (existingKorisnik != null) {
             String errorMessage = "Korisnik već postoji";
@@ -48,6 +57,7 @@ public class KorisnikController {
         }
 
         try {
+            // Registrirajte korisnika
             Korisnik registeredKorisnik = korisnikService.register(korisnik);
             return ResponseEntity.ok(registeredKorisnik);
         } catch (RuntimeException e) {
@@ -55,18 +65,22 @@ public class KorisnikController {
         }
     }
 
-
+   
 
     @PostMapping("/login")
-    public ResponseEntity<Korisnik> login(@RequestParam("email") String email, @RequestParam("lozinka") String lozinka) {
-        Korisnik loggedKorisnik = korisnikService.login(email, lozinka);
-        if (loggedKorisnik != null) {
-            return ResponseEntity.ok(loggedKorisnik);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public String processLogin(@RequestParam String email, @RequestParam String lozinka, Model model) {
+        try {
+            korisnikService.login(email, lozinka);
+            return "redirect:/home";
+        } catch (UsernameNotFoundException | BadCredentialsException e) {
+            model.addAttribute("error", "Neispravna kombinacija emaila i lozinke.");
+            return "login";
         }
     }
-    
+
+
+
+
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("korisnik", new Korisnik());
@@ -80,8 +94,13 @@ public class KorisnikController {
     }
 
 
+    
+     
 
+     
 }
+    
+
 
      
 

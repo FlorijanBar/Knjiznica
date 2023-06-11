@@ -50,6 +50,10 @@ public class KnjizicarServiceImpl implements KnjizicarService{
     public void deleteKnjizicar(Long id) {
         knjizicarRepository.deleteById(id);
     }
-   
+   @Override
+   public Knjizicar getKnjizicarByEmail(String email) {
+	    return knjizicarRepository.findByEmail(email);
+	}
+
 }
     

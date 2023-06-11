@@ -17,5 +17,7 @@ public interface KnjizicarService {
     
     void deleteKnjizicar(Long id);
 
+	Knjizicar getKnjizicarByEmail(String email);
+
 	
 }

@@ -8,31 +8,10 @@
 <body>
 
 <div class="container">
-    <h1 class="mt-4">Sve knjige</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Naziv</th>
-                <th>Autor</th>
-                <th>Akcije</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="knjiga : ${knjige}">
-                <td th:text="${knjiga.id}"></td>
-                <td th:text="${knjiga.naziv}"></td>
-                <td th:text="${knjiga.autor}"></td>
-                <td>
-                 
-                    <a class="btn btn-info" th:href="@{/api/knjiga/{id}/update(id=${knjiga.id})}">Uredi</a>
-                    <a class="btn btn-danger" th:href="@{/api/knjiga/{id}/delete(id=${knjiga.id})}">Izbriši</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    
 
     <h1 class="mt-4">Izdavanje knjige</h1>
+     <a href="/home" class="btn btn-primary">Povratak na početnu</a>
     <form class="mt-4" th:action="@{/api/knjiga/izdaj}" method="post">
         <div class="form-group">
             <label for="student">Student:</label>
@@ -62,7 +41,10 @@
     <form id="provjeraForma" class="mt-4" th:action="@{/api/knjiga/{knjigaId}/status(knjigaId=${knjigaId})}" method="get">
         <div class="form-group">
             <label for="knjigaStatus">Unesite ID knjige:</label>
-            <input type="text" id="knjigaStatus" name="knjigaId" required class="form-control">
+             <select id="knjigaStatus" name="knjigaId" required class="form-control">
+                <option value="">Odaberite knjigu</option>
+              <option th:each="knjiga : ${knjige}" th:value="${knjiga.id}" th:text="${knjiga.naziv}"></option>
+            </select>
         </div>
         
         <button type="submit" class="btn btn-primary">Provjeri</button>
@@ -72,7 +54,10 @@
     <form id="pregledIzdanihKnjigaForm" class="mt-4" th:action="@{/api/knjiga/{studentId}/izdane-knjige(studentId=${studentId})}" method="get">
         <div class="form-group">
             <label for="studentIzdaneKnjige">Unesite ID studenta:</label>
-            <input type="text" id="studentIzdaneKnjige" name="studentId" required class="form-control">
+            <select id="studentIzdaneKnjige" name="studentId" required class="form-control">
+                <option value="">Odaberite studenta</option>
+               <option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.ime} + ' ' + ${student.prezime}"></option>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Prikaži</button>
     </form>
@@ -97,21 +82,7 @@
         	<label for="datumVracanja">Datum vraćanja:</label>
  			<input type="date" name="datumVracanja" id="datumVracanja">
             <button type="submit" class="btn btn-primary">Vrati knjigu</button>
-    </form>
-  	<h1 class="mt-4">Pregled vraćenih knjiga za studenta</h1>
-<form id="pregledVracenihKnjigaForm" class="mt-4" th:action="@{/api/knjiga/student/{studentId}/vraceneKnjige(studentId=${studentId})}" method="get">
-<input type="hidden" id="studentId" name="studentId" th:value="${studentId}" />
-
-    	<div class="form-group">
-        	<label for="studentVraceneKnjige">Odaberite studenta:</label>
-        	<select id="studentVraceneKnjige" name="studentId" class="form-control" required>
-            	<option value="">Odaberite studenta</option>
-            	<option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.ime + ' ' + student.prezime}"></option>
-        	</select>
-    	</div>
-    	<button type="submit" class="btn btn-primary">Prikaži</button>
-	</form>
-    
+    </form>  
 </div>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

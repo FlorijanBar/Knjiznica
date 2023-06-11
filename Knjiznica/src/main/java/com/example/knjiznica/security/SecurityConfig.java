@@ -6,50 +6,54 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.example.knjiznica.service.KorisnikService;
+import com.example.knjiznica.service.KorisnikServiceImpl;
 
 @Configuration
-public class SecurityConfig{
+@EnableWebSecurity
+public class SecurityConfig {
 
-    
-    private KorisnikService korisnikService;
-    
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
-        		.requestMatchers("/", "/korisnik/register").permitAll()
-                .anyRequest().permitAll()
-                .and()
-            .formLogin()
-                .loginPage("/korisnik/login")
-                .defaultSuccessUrl("/home",true)
-                .permitAll()
-                .and()
-            .logout()
-                .permitAll();
-        return http.build();
-    }
+	@Autowired
+	private KorisnikServiceImpl korisnikService;
+	  @Bean
+	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	        http.csrf().disable()
+	                .authorizeHttpRequests((requests) -> requests
+	                        .requestMatchers("/korisnik/registracija/**").permitAll()
+	                        .requestMatchers("/korisnik/login/**").permitAll()
+	                        .requestMatchers("/admin/**").hasAnyRole("ADMIN")
+	                        .anyRequest().permitAll()
+	                )
+	                .formLogin((form) -> form
+	                        .loginPage("/korisnik/login")
+	                        .loginProcessingUrl("/korisnik/login")
+	                        .defaultSuccessUrl("/home/")
+	                        .permitAll()
+	                )
+	                .logout((logout) -> logout.permitAll())
+	                .exceptionHandling().accessDeniedPage("/access-denied");
+	        return http.build();
+	    }
 
-  
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+	@Bean
+	public UserDetailsService userDetailsService() {
+		UserDetails user =
+			 User.withDefaultPasswordEncoder()
+				.username("user")
+				.password("password")
+				.roles("USER")
+				.build();
+
+		return new InMemoryUserDetailsManager(user);
+	}
+	
+	
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(korisnikService);
     }
-    
-    
 }
-
-    
-
-
-
-
-    
-
-
-

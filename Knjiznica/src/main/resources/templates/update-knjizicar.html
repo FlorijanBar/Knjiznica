@@ -8,7 +8,7 @@
 <body>
     <div class="container">
         <h2>Ažuriranje knjižničara</h2>
-        
+        <a href="/knjizicar/all" class="btn btn-primary">Povratak na sve knjizicare</a>
         <form th:action="@{/knjizicar/{id}/update(id=${knjizicar.id})}" method="post">
             <div class="form-group">
                 <label for="ime">Ime:</label>

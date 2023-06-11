@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h2>Create Knjiga</h2>
-        
+        <a href="/api/knjiga/all" class="btn btn-primary">Povratak na sve knjige</a>
         <form action="#" th:action="@{/api/knjiga/create}" th:object="${knjiga}" method="post">
             <div class="form-group">
                 <label for="naziv">Naziv:</label>

@@ -8,7 +8,7 @@
 <body>
     <div class="container">
         <h2>Update Knjiga</h2>
-        
+         <a href="/api/knjiga/all" class="btn btn-primary">Povratak na sve knjige</a>
         <form action="#" th:action="@{/api/knjiga/{id}/update(id=${knjiga.id})}" th:object="${knjiga}" method="post">
             <input type="hidden" name="_method" value="PUT" />
             

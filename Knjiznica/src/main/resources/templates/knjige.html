@@ -8,14 +8,14 @@
 <body>
     <div class="container">
         <h2>Knjige</h2>
-         <h2>Search Books</h2>
-
+        <a href="/home" class="btn btn-primary">Povratak na početnu stranicu</a>
+         <h2>Traži knjige</h2>
         <form th:action="@{/api/knjiga/search}" method="get">
             <div class="form-group">
                 <label for="naziv">Naziv:</label>
                 <input type="text" id="naziv" name="naziv" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary">Traži</button>
         </form>
         
         <table class="table">
@@ -39,13 +39,13 @@
                 <td th:text="${knjiga.oznaka}"></td>
                 <td th:text="${knjiga.inventurni_broj}"></td>
                 <td>
-                    <a th:href="@{/api/knjiga/{id}/update(id=${knjiga.id})}">Update</a>
-                    <a th:href="@{/api/knjiga/{id}/delete(id=${knjiga.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+                    <a th:href="@{/api/knjiga/{id}/update(id=${knjiga.id})}">Ažuriraj</a>
+                    <a th:href="@{/api/knjiga/{id}/delete(id=${knjiga.id})}" onclick="return confirm('Are you sure?')">Izbriši</a>
                 </td>
             </tr>
            
         </table>
- <a href="/api/knjiga/create" class="btn btn-primary">Create Knjiga</a>
+ <a href="/api/knjiga/create" class="btn btn-primary">Kreiraj Knjigu</a>
        
         
         

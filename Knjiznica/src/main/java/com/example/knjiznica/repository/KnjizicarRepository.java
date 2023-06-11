@@ -8,7 +8,9 @@ import com.example.knjiznica.model.Knjizicar;
 @Repository
 public interface KnjizicarRepository extends JpaRepository<Knjizicar, Long> {
 
+	Knjizicar findByEmail(String email);
 	
+	Knjizicar findKnjizicarById(Long id);
 	
 	    
 
