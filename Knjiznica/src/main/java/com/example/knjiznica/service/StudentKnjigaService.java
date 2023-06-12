@@ -29,7 +29,7 @@ public interface StudentKnjigaService {
 
 	List<StudentKnjiga> getAllIzdaneKnjigeByStudent(Student student);
 
-	List<Knjiga> getVraceneKnjigeZaStudenta(Long studentId);
+	public List<StudentKnjiga> getVraceneKnjigeZaStudenta(Long studentId);
 
 
 	List<StudentKnjiga> getOverdueKnjige();

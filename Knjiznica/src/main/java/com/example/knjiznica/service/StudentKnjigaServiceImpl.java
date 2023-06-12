@@ -32,7 +32,7 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
 		 StudentKnjiga izdanaKnjiga = new StudentKnjiga();
 	        izdanaKnjiga.setStudent(student);
 	        izdanaKnjiga.setKnjiga(knjiga);
-	        izdanaKnjiga.setDatumIzdavanja(LocalDate.now());
+	        izdanaKnjiga.setDatumIzdavanja(datumIzdavanja);
 	        izdanaKnjiga.setRokVracanja(rokVracanja);
 	        return studentKnjigaRepository.save(izdanaKnjiga);
 	    }
@@ -138,14 +138,10 @@ public List<StudentKnjiga> getStudentiKnjige() {
     return studentKnjigaRepository.findAll();
 }
 @Override
-public List<Knjiga> getVraceneKnjigeZaStudenta(Long studentId) {
-    List<StudentKnjiga> vraceneKnjige = studentKnjigaRepository.findAllByStudentIdAndDatumVracanjaIsNotNull(studentId);
-    List<Knjiga> knjige = new ArrayList<>();
-    for (StudentKnjiga studentKnjiga : vraceneKnjige) {
-        knjige.add(studentKnjiga.getKnjiga());
-    }
-    return knjige;
+public List<StudentKnjiga> getVraceneKnjigeZaStudenta(Long studentId) {
+    return studentKnjigaRepository.findAllByStudentIdAndDatumVracanjaIsNotNull(studentId);
 }
+
 
 
 }

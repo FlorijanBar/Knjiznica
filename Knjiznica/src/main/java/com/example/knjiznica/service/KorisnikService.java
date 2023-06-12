@@ -11,17 +11,28 @@ import org.springframework.stereotype.Service;
 import com.example.knjiznica.model.Knjizicar;
 import com.example.knjiznica.model.Korisnik;
 
+import jakarta.transaction.Transactional;
+@Transactional
 @Service
 public interface KorisnikService {
 
-	Korisnik register(Korisnik korisnik);
-
-	Korisnik login(String email, String lozinka);
+	
 
 	Korisnik findByEmail(String email);
 
 
-	UserDetails loadUserByUsername(String email);
+	boolean autentifikacijaKorisnika(Korisnik korisnik);
+
+	void registracijaKorisnika(Korisnik korisnik);
+
+
+	void prijavaKorisnika(String email, String lozinka);
+
+
+	void odjavaKorisnika();
+
+
+	
 	
 
 

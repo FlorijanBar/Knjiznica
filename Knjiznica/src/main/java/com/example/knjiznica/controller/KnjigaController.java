@@ -203,7 +203,7 @@ public class KnjigaController {
         if (student == null) {
             return "error";
         }
-        List<Knjiga> vraceneKnjige = studentKnjigaService.getVraceneKnjigeZaStudenta(studentId);
+        List<StudentKnjiga> vraceneKnjige = studentKnjigaService.getVraceneKnjigeZaStudenta(studentId);
         model.addAttribute("student", student);
         model.addAttribute("vraceneKnjige", vraceneKnjige);
         return "vracene-knjige";

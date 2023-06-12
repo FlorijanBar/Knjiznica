@@ -40,58 +40,47 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping("/korisnik")
 public class KorisnikController {
 
-    @Autowired
-    private KorisnikService korisnikService;
-   
-    @Autowired
-    private KorisnikRepository korisnikRepository;
+	 private final KorisnikService korisnikService;
+
+	    @Autowired
+	    public KorisnikController(KorisnikService korisnikService) {
+	        this.korisnikService = korisnikService;
+	    }
+    @GetMapping("/registracija")
+	public String prikaziFormuRegistracije(Model model) {
+		model.addAttribute("korisnik", new Korisnik());
+		return "register";
+	}
+	
+	@PostMapping("/registracija")
+	public String registracijaKorisnika(Korisnik korisnik) {
+		korisnikService.registracijaKorisnika(korisnik);
+		return "redirect:/korisnik/prijava";
+	}
+	
+	@GetMapping("/prijava")
+	public String prikaziFormuPrijave() {
+		return "login";
+	}
+	
+	@PostMapping("/prijava")
+	public String prijavaKorisnika(@RequestParam("email") String email, @RequestParam("lozinka") String lozinka) {
+	    try {
+	        korisnikService.prijavaKorisnika(email, lozinka);
+	        return "redirect:/home";
+	    } catch (BadCredentialsException e) {
+	        return "redirect:/korisnik/prijava?error";
+	    }
+	}
+	
+	@GetMapping("/odjava")
+	public String odjavaKorisnika() {
+	    korisnikService.odjavaKorisnika();
+	    return "redirect:/login";
+	}
 
 
-    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<?> register(@ModelAttribute Korisnik korisnik) {
-        // Provjerite postoji li korisnik s istom email adresom
-        Korisnik existingKorisnik = korisnikService.findByEmail(korisnik.getEmail());
-        if (existingKorisnik != null) {
-            String errorMessage = "Korisnik već postoji";
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
-        }
 
-        try {
-            // Registrirajte korisnika
-            Korisnik registeredKorisnik = korisnikService.register(korisnik);
-            return ResponseEntity.ok(registeredKorisnik);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-    }
-
-   
-
-    @PostMapping("/login")
-    public String processLogin(@RequestParam String email, @RequestParam String lozinka, Model model) {
-        try {
-            korisnikService.login(email, lozinka);
-            return "redirect:/home";
-        } catch (UsernameNotFoundException | BadCredentialsException e) {
-            model.addAttribute("error", "Neispravna kombinacija emaila i lozinke.");
-            return "login";
-        }
-    }
-
-
-
-
-    @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("korisnik", new Korisnik());
-        return "register";
-    }
-
-    @GetMapping("/login")
-    public String showLoginForm(Model model) {
-        model.addAttribute("korisnik", new Korisnik());
-        return "login";
-    }
 
 
     
