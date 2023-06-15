@@ -1,0 +1,6 @@
+Za usjpešan ulazak potrebno se prijaviti sa sljedećim podacima:
+http://localhost:9000/login
+username: knjiznica@mev.hr
+password: mev
+
+Za testiranje i slanje obavijesti mailom, koristio se MailHog.
