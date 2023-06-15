@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Stvaranje studenta</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Stvaranje studenta</h1>
+         <a href="/student/all" class="btn btn-primary">Povratak na sve studente</a>
+        <form th:action="@{/student/create}" method="post">
+            <div class="form-group">
+                <label for="ime">Ime:</label>
+                <input type="text" id="ime" name="ime" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="prezime">Prezime:</label>
+                <input type="text" id="prezime" name="prezime" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="studij">Studij:</label>
+                <input type="text" id="studij" name="studij" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="godinaStudija">Godina studija:</label>
+                <input type="number" id="godinaStudija" name="godinaStudija" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Spremi</button>
+        </form>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

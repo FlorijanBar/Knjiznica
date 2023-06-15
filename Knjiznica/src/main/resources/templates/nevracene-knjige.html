@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nevraćene knjige</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Nevraćene knjige</h1>
+         <a href="/home" class="btn btn-primary">Povratak na početnu stranicu</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Knjiga</th>
+                    <th>Datum izdavanja</th>
+                    <th>Datum vraćanja</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="knjiga : ${nevraceneKnjige}">
+                    <td th:text="${knjiga.student.ime}"></td>
+                    <td th:text="${knjiga.knjiga.naziv}"></td>
+                    <td th:text="${knjiga.datumIzdavanja}"></td>
+                        <td th:text="${knjiga.datumVracanja != null ? knjiga.datumVracanja : 'Nije vraćena'}"></td>
+                    <td>
+                        <form th:action="@{/api/knjiga/vratiKnjigu}" method="post">
+                            <input type="hidden" name="studentId" th:value="${knjiga.student.id}" />
+                            <input type="hidden" name="knjigaId" th:value="${knjiga.knjiga.id}" />
+                            <button type="submit" class="btn btn-primary">Vrati knjigu</button>
+                        </form>
+                    </td>
+                   <td>
+               
+                <form th:action="@{/api/knjiga/posaljiObavijest}" method="post">
+                    <input type="hidden" name="studentKnjigaId" th:value="${knjiga.id}" />
+                    <button type="submit" class="btn btn-primary">Pošalji obavijest</button>
+                </form>
+            </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

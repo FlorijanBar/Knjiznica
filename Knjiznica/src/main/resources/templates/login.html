@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prijava</title>
+</head>
+<body>
+    <h2>Prijava</h2>
+    <form action="/korisnik/prijava" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    
+        <div>
+            <label>Email:</label>
+            <input type="email" name="email" required>
+        </div>
+        <div>
+            <label>Lozinka:</label>
+            <input type="password" name="lozinka" required>
+        </div>
+        <div>
+            <input type="submit" value="Prijavi se">
+        </div>
+        <div>
+            <p th:if="${param.error}">Pogrešan email ili lozinka.</p>
+        </div>
+    </form>
+</body>
+</html>

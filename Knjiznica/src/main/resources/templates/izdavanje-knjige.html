@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Knjiznica</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    
+
+    <h1 class="mt-4">Izdavanje knjige</h1>
+     <a href="/home" class="btn btn-primary">Povratak na početnu</a>
+    <form class="mt-4" th:action="@{/api/knjiga/izdaj}" method="post">
+        <div class="form-group">
+            <label for="student">Student:</label>
+            <select id="student" name="studentId" required class="form-control">
+                <option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.ime} + ' ' + ${student.prezime}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="knjiga">Knjiga:</label>
+            <select id="knjiga" name="knjigaId" required class="form-control">
+                <option th:each="knjiga : ${knjige}" th:value="${knjiga.id}" th:text="${knjiga.naziv}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="datumIzdavanja">Datum izdavanja:</label>
+            <input type="date" id="datumIzdavanja" name="datumIzdavanja" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="rokVracanja">Rok vraćanja:</label>
+  			<input type="date" name="rokVracanja" id="rokVracanja">
+
+        </div>
+        <button type="submit" class="btn btn-primary">Izdaj</button>
+    </form>
+
+    <h1 class="mt-4">Provjera statusa izdavanja knjige</h1>
+    <form id="provjeraForma" class="mt-4" th:action="@{/api/knjiga/{knjigaId}/status(knjigaId=${knjigaId})}" method="get">
+        <div class="form-group">
+            <label for="knjigaStatus">Unesite ID knjige:</label>
+             <select id="knjigaStatus" name="knjigaId" required class="form-control">
+                <option value="">Odaberite knjigu</option>
+              <option th:each="knjiga : ${knjige}" th:value="${knjiga.id}" th:text="${knjiga.naziv}"></option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Provjeri</button>
+    </form>
+
+    <h1 class="mt-4">Pregled izdanih knjiga za studenta</h1>
+    <form id="pregledIzdanihKnjigaForm" class="mt-4" th:action="@{/api/knjiga/{studentId}/izdane-knjige(studentId=${studentId})}" method="get">
+        <div class="form-group">
+            <label for="studentIzdaneKnjige">Unesite ID studenta:</label>
+            <select id="studentIzdaneKnjige" name="studentId" required class="form-control">
+                <option value="">Odaberite studenta</option>
+               <option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.ime} + ' ' + ${student.prezime}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Prikaži</button>
+    </form>
+
+
+    <h1 class="mt-4">Vraćanje knjige</h1>
+    <form class="mt-4" th:action="@{/api/knjiga/vratiKnjigu}" method="post">
+        <div class="form-group">
+            <label for="studentId">Student:</label>
+            <select id="studentId" name="studentId" required class="form-control">
+                <option value="">Odaberite studenta</option>
+                <option th:each="student : ${studenti}" th:value="${student.id}" th:text="${student.id + ' - ' + student.ime + ' ' + student.prezime}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="knjigaId">Knjiga:</label>
+            <select id="knjigaId" name="knjigaId" required class="form-control">
+                <option value="">Odaberite knjigu</option>
+                <option th:each="knjiga : ${knjige}" th:value="${knjiga.id}" th:text="${knjiga.naziv}"></option>
+            </select>
+        </div>
+        	<label for="datumVracanja">Datum vraćanja:</label>
+ 			<input type="date" name="datumVracanja" id="datumVracanja">
+            <button type="submit" class="btn btn-primary">Vrati knjigu</button>
+    </form>  
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('provjeraForma').addEventListener('submit', function(e) {
+        e.preventDefault(); // Spriječi podnošenje obrasca
+
+        var knjigaId = document.getElementById('knjigaStatus').value; // Dohvati uneseni ID knjige
+        var form = this;
+
+        form.action = '/api/knjiga/' + knjigaId + '/status'; // Ažuriraj akcijsku putanju s novim ID-om knjige
+        form.submit(); // Podnesi obrazac
+    });
+
+    document.getElementById('pregledIzdanihKnjigaForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Spriječi podnošenje obrasca
+
+        var studentId = document.getElementById('studentIzdaneKnjige').value; // Dohvati ID odabranog studenta
+        var form = this;
+
+        form.action = '/api/knjiga/student/' + studentId + '/izdane-knjige'; // Ažuriraj akcijsku putanju s novim ID-om studenta
+        form.submit(); // Podnesi obrazac
+    });
+    
+    
+</script>
+
+</body>
+</html>

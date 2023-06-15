@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Naslovna stranica</title>
+   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url("https://www.mev.hr/wp-content/uploads/2021/05/Medimursko-veleuc%CC%8Cilis%CC%8Cte-u-C%CC%8Cakovcu-MEV.jpg");
+            background-size: cover;
+        }
+
+        .jumbotron {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/knjiga/all">Knjige</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/student/all">Studenti</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/knjizicar/all">Knjižničari</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/knjiga/izdaj">Izdavanje/Vračanje/Status knjige</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/knjiga/vraceneKnjige">Vraćene knjige za studenta</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/obavijest/obavijesti">Pošalji obavijest nevračenim knjigama</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/obavijest/ispis-studenata">Popis nevraćenih knjiga</a>
+                </li>
+               <li class="nav-item">
+                    <a class="nav-link" href="korisnik/odjava">Odjava</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h2 class="display-4">Dobrodošli na naslovnu stranicu</h2>
+            <p class="lead">Knjižnica Međimurskog veleučilišta u Čakovcu</p>
+        </div>
+    </div>
+
+   
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,11 +1,16 @@
 package com.example.knjiznica.model;
 
 import jakarta.persistence.Table;
+
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.*;
 
 @Setter
@@ -30,19 +35,32 @@ public class Student {
 
 	@Column(name = "Godina_studija")
 	private int godinaStudija;
+	
+	 @Column(name = "Email")
+	 private String email;
+	
+	@OneToMany(mappedBy = "student",cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<StudentKnjiga> izdateKnjige;
 
 	public Student() {
 		super();
 	}
 
-	public Student(Long id, String ime, String prezime, String studij, int godinaStudija) {
+	
+
+	public Student(Long id, String ime, String prezime, String studij, int godinaStudija, String email,
+			List<StudentKnjiga> izdateKnjige) {
 		super();
 		this.id = id;
 		this.ime = ime;
 		this.prezime = prezime;
 		this.studij = studij;
 		this.godinaStudija = godinaStudija;
+		this.email = email;
+		this.izdateKnjige = izdateKnjige;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -83,5 +101,27 @@ public class Student {
 	public void setGodinaStudija(int godinaStudija) {
 		this.godinaStudija = godinaStudija;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+	public List<StudentKnjiga> getIzdateKnjige() {
+		return izdateKnjige;
+	}
+
+	public void setIzdateKnjige(List<StudentKnjiga> izdateKnjige) {
+		this.izdateKnjige = izdateKnjige;
+	}
+
+
 
 }

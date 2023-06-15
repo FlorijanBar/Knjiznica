@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vraćene knjige</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    <h1 class="mt-4">Prikaz vraćenih knjiga za studenta</h1>
+    <a href="/api/knjiga/vraceneKnjige" class="btn btn-primary">Povratak na vračene knjige</a>
+    <h2>Student: <span th:text="${student.ime}"></span></h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Naziv knjige</th>
+                <th>Autor</th>
+                <th>Datum Vraćanja</th>
+            </tr>
+        </thead>
+        <tbody>
+         <tr th:each="studentKnjiga : ${vraceneKnjige}">
+            <td th:text="${studentKnjiga.knjiga.naziv}"></td>
+            <td th:text="${studentKnjiga.knjiga.autor}"></td>
+            <td th:text="${studentKnjiga.datumVracanja}"></td> <!-- Prikaz datuma vraćanja -->
+        </tr>
+        </tbody>
+    </table>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>

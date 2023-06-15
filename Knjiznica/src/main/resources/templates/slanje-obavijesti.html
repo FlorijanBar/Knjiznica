@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Slanje obavijesti</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Slanje obavijesti</h1>
+         <a href="/home" class="btn btn-primary">Povratak na početnu stranicu</a>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Knjiga</th>
+                    <th>Rok vraćanja</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="studentKnjiga : ${studentiKnjigeSaProslimRokom}">
+                    <td th:text="${studentKnjiga.student.getIme() + ' ' + studentKnjiga.student.getPrezime()}"></td>
+                    <td th:text="${studentKnjiga.knjiga.getNaziv}"></td>
+                     <td th:text="${studentKnjiga.getRokVracanja()}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <form th:action="@{/obavijest/slanje-obavijesti}" method="get">
+            <button type="submit" class="btn btn-primary">Pošalji obavijesti</button>
+        </form>
+       
+        
+    </div>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

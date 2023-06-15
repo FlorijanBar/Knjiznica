@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Knjiznica</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>Provjera statusa izdane knjige</h1>
+ <a href="/api/knjiga/izdaj" class="btn btn-primary">Povratak</a>
+    <div th:if="${knjiga != null}">
+        <p>Naziv knjige: <span th:text="${knjiga.naziv}"></span></p>
+        <p>Status:</p>
+    </div>
+
+    <div th:if="${izdaneKnjige == null || izdaneKnjige.empty}">
+        <p th:text="${statusPoruka}"></p>
+    </div>
+
+    <div th:if="${izdaneKnjige != null}">
+        <h2>Detalji izdane knjige</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Datum izdavanja</th>
+                    <th>Rok vraćanja</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="izdanaKnjiga : ${izdaneKnjige}">
+                    <td>
+                        <span th:if="${student != null}" th:text="${student.ime + ' ' + student.prezime}"></span>
+                        <span th:if="${student == null}" th:text="${izdanaKnjiga.student.ime + ' ' + izdanaKnjiga.student.prezime}"></span>
+                    </td>
+                    <td th:text="${izdanaKnjiga.datumIzdavanja}"></td>
+                    <td th:text="${izdanaKnjiga.rokVracanja}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

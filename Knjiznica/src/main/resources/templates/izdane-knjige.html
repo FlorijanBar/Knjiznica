@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Izdane knjige</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>Izdane knjige za studenta: <span th:text="${student.ime + ' ' + student.prezime}"></span></h1>
+ <a href="/api/knjiga/izdaj" class="btn btn-primary">Povratak</a>
+    <div th:if="${izdaneKnjige != null}">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Knjiga</th>
+                    <th>Datum izdavanja</th>
+                    <th>Rok vraćanja</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="izdanaKnjiga : ${izdaneKnjige}">
+                    <td th:text="${izdanaKnjiga.knjiga.naziv}"></td>
+                    <td th:text="${izdanaKnjiga.datumIzdavanja}"></td>
+                    <td th:text="${izdanaKnjiga.rokVracanja}"></td>
+                    <td>
+                       
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,14 +1,23 @@
 package com.example.knjiznica.service;
 
-import com.example.knjiznica.model.Knjizicar;
+import org.springframework.stereotype.Service;
 
+import com.example.knjiznica.model.Knjizicar;
+@Service
 public interface KnjizicarService {
     
     Knjizicar createKnjizicar(Knjizicar Knjizicar);
 
     Iterable<Knjizicar> getAllKnjizicar();
 
-    Iterable<Knjizicar> getKnjizicarStudij(String studij);
 
-    Knjizicar getKnjizicar(long id_Knjizicar);
+    Knjizicar getKnjizicar(Long id);
+    
+    Knjizicar updateKnjizicar(Long id, Knjizicar knjizicar);
+    
+    void deleteKnjizicar(Long id);
+
+	Knjizicar getKnjizicarByEmail(String email);
+
+	
 }
