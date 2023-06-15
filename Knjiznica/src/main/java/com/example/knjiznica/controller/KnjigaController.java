@@ -42,10 +42,11 @@ public class KnjigaController {
     private StudentKnjigaService studentKnjigaService;
     
     @Autowired
-    private EmailService emailService; // Trebate prilagoditi ovisno o implementaciji vaše usluge slanja e-pošte
+    private EmailService emailService; 
 
     @Autowired
     private  JavaMailSender mailSender;
+    
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("knjiga", new Knjiga());
@@ -56,12 +57,12 @@ public class KnjigaController {
     public ModelAndView createKnjiga(@ModelAttribute Knjiga knjiga) {
         Knjiga createdKnjiga = knjigaService.createKnjiga(knjiga);
         
-        // Provjera uspješnosti stvaranja knjige
+      
         if (createdKnjiga != null) {
-            // Preusmjeravanje korisnika na stranicu koja prikazuje sve knjige
+          
             return new ModelAndView("redirect:/api/knjiga/all");
         } else {
-            // Prikazivanje poruke o greški na istoj stranici
+           
             ModelAndView modelAndView = new ModelAndView("knjiga");
             modelAndView.addObject("errorMessage", "Došlo je do pogreške prilikom stvaranja knjige.");
             return modelAndView;
@@ -104,7 +105,7 @@ public class KnjigaController {
             RedirectView redirect = new RedirectView("/api/knjiga/all");
             return new ModelAndView(redirect);
         } else {
-            return new ModelAndView("error-page"); // Stranica za prikaz greške
+            return new ModelAndView("error-page"); 
         }
     }
 
@@ -133,7 +134,7 @@ public class KnjigaController {
     public ModelAndView searchBooksByNaziv(@RequestParam("naziv") String naziv) {
         List<Knjiga> books = knjigaService.searchBooksByNaziv(naziv);
 
-        // Dodavanje liste knjiga kao atributa modela
+     
         ModelAndView modelAndView = new ModelAndView("search");
         modelAndView.addObject("books", books);
         return modelAndView;
@@ -141,12 +142,6 @@ public class KnjigaController {
 
     
     
-
-
-
-
-  
-
     @GetMapping("/{knjigaId}/status")
     public String provjeriStatusIzdaneKnjige(@PathVariable("knjigaId") Long knjigaId,
                                              @RequestParam(value = "studentId", required = false) Long studentId,
@@ -187,8 +182,6 @@ public class KnjigaController {
     }
 
 
- 
-    
     @GetMapping("/vraceneKnjige")
     public String prikaziFormuOdabirStudenta(Model model) {
         List<Student> studenti = studentService.getAllStudent();
@@ -208,9 +201,6 @@ public class KnjigaController {
         model.addAttribute("vraceneKnjige", vraceneKnjige);
         return "vracene-knjige";
     }
-
-
-    
 
 
     @PostMapping("/izdaj")

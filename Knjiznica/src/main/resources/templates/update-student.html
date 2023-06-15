@@ -11,31 +11,27 @@
         <form th:action="@{/student/{id}/update(id=${student.id})}" th:object="${student}" method="post">
             <input type="hidden" name="_method" value="PUT">
 
-            <div class="form-group">
+   <div class="form-group">
                 <label for="ime">Ime:</label>
-                <input type="text" id="ime" name="ime" class="form-control" required>
+                <input type="text" id="ime" name="ime" th:field="*{ime}" class="form-control" />
             </div>
-
             <div class="form-group">
                 <label for="prezime">Prezime:</label>
-                <input type="text" id="prezime" name="prezime" class="form-control" required>
+                <input type="text" id="prezime" name="prezime" th:field="*{prezime}" class="form-control" />
             </div>
-
-            <div class="form-group">
+             <div class="form-group">
                 <label for="studij">Studij:</label>
-                <input type="text" id="studij" name="studij" class="form-control" required>
+                <input type="text" id="studij" name="studij" th:field="*{studij}" class="form-control" />
             </div>
-
             <div class="form-group">
                 <label for="godinaStudija">Godina studija:</label>
-                <input type="number" id="godinaStudija" name="godinaStudija" class="form-control" required>
+                <input type="number" id="godinaStudija" name="godinaStudija" th:field="*{godinaStudija}" class="form-control" />
             </div>
-
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="text" id="email" name="email" class="form-control" required>
+                <input type="text" id="email" name="email" th:field="*{email}" class="form-control" />
             </div>
-
+           
             <input type="submit" value="Spremi" class="btn btn-primary">
         </form>
     </div>

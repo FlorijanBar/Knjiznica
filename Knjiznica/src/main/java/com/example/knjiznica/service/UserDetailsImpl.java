@@ -18,7 +18,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Ovdje možete dodati dodatne informacije o korisnikovim ovlastima/ulogama ako je potrebno.
+       
         return Collections.emptyList();
     }
 

@@ -8,11 +8,11 @@
 <body>
     <div class="container">
         <h1>Rezultati pretraživanja</h1>
-         <a href="/home" class="btn btn-primary">Povratak na početnu stranicu</a>
+         <a href="/api/knjiga/all" class="btn btn-primary">Povratak na sve knjige</a>
         
         <form class="form-inline mb-3" action="/api/knjiga/search" method="get">
-            <input type="text" class="form-control mr-2" name="naziv" placeholder="Search by title">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <input type="text" class="form-control mr-2" name="naziv" placeholder="Traži po nazivu knjige">
+            <button type="submit" class="btn btn-primary">Traži</button>
         </form>
         
         <table class="table">

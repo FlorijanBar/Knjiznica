@@ -60,12 +60,12 @@ public class KnjizicarController {
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ModelAndView createKnjizicar(@ModelAttribute Knjizicar knjizicar) {
         Knjizicar createdKnjizicar = knjizicarService.createKnjizicar(knjizicar);
-        // Provjera uspješnosti stvaranja knjige
+        
         if (createdKnjizicar != null) {
-            // Preusmjeravanje korisnika na stranicu koja prikazuje sve knjige
+           
             return new ModelAndView("redirect:/knjizicar/all");
         } else {
-            // Prikazivanje poruke o greški na istoj stranici
+          
             ModelAndView modelAndView = new ModelAndView("knjizicar");
             modelAndView.addObject("errorMessage", "Došlo je do pogreške prilikom stvaranja knjige.");
             return modelAndView;

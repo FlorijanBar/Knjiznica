@@ -57,12 +57,12 @@ public class StudentController {
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ModelAndView createStudent(@ModelAttribute Student student) {
         Student createdStudent = studentService.createStudent(student);
-        // Provjera uspješnosti stvaranja knjige
+       
         if (createdStudent != null) {
-            // Preusmjeravanje korisnika na stranicu koja prikazuje sve knjige
+           
             return new ModelAndView("redirect:/student/all");
         } else {
-            // Prikazivanje poruke o greški na istoj stranici
+            
             ModelAndView modelAndView = new ModelAndView("knjiga");
             modelAndView.addObject("errorMessage", "Došlo je do pogreške prilikom stvaranja knjige.");
             return modelAndView;

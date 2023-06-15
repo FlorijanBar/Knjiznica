@@ -47,10 +47,10 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
 	        List<StudentKnjiga> izdaneKnjige = studentKnjigaRepository.findByStudentAndKnjiga(student, knjiga);
 	        for (StudentKnjiga studentKnjiga : izdaneKnjige) {
 	            if (studentKnjiga.getDatumVracanja() == null) {
-	                return true; // Knjiga je izdana ako postoji izdana knjiga bez datuma vraćanja
+	                return true; 
 	            }
 	        }
-	        return false; // Knjiga nije izdana ako ne postoji izdana knjiga bez datuma vraćanja
+	        return false; 
 	    }
 
 
@@ -114,7 +114,7 @@ public class StudentKnjigaServiceImpl implements StudentKnjigaService{
 	    }
 	    @Override
 	    public StudentKnjiga getIzdanaKnjigaZaStudenta(Long knjigaId, Long studentId) {
-	        // Pretraživanje izdane knjige po ID knjige i ID studenta
+	       
 	        return studentKnjigaRepository.findByKnjigaIdAndStudentIdAndDatumVracanjaIsNull(knjigaId, studentId);
 	    }
  @Override

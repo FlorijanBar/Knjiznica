@@ -39,7 +39,7 @@
                 <td th:text="${knjiga.oznaka}"></td>
                 <td th:text="${knjiga.inventurni_broj}"></td>
                 <td>
-                    <a th:href="@{/api/knjiga/{id}/update(id=${knjiga.id})}">Ažuriraj</a>
+                    <a th:href="@{/api/knjiga/{id}/update(id=${knjiga.id})}">Uredi</a>
                     <a th:href="@{/api/knjiga/{id}/delete(id=${knjiga.id})}" onclick="return confirm('Are you sure?')">Izbriši</a>
                 </td>
             </tr>

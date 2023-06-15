@@ -33,7 +33,7 @@ public class SecurityConfig {
 	            .anyRequest().authenticated()
 	        )
 	        .formLogin((form) -> form
-	        	
+	        	 
 	            .defaultSuccessUrl("/home")
 	            .permitAll()
 	        );

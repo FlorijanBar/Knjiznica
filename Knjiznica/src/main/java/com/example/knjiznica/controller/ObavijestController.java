@@ -55,10 +55,10 @@ public class ObavijestController {
 		    String subject = "Obavijest o vraćanju knjige";
 		    String message = "Poštovani " + studentKnjiga.getStudent().getIme() + ",\n\nMolimo vas da što prije vratite knjigu koju ste posudili. Hvala!";
 		    try {
-		        emailService.posaljiEmail(email, subject, message); // Prilagođen poziv metodi posaljiEmail
+		        emailService.posaljiEmail(email, subject, message); 
 		    } catch (MailException e) {
 		    	e.printStackTrace();
-		        // Obrada greške slanja emaila
+		      
 		    }
 		}
 	 @GetMapping("/ispis-studenata")

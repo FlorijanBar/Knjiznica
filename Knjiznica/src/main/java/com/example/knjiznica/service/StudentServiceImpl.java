@@ -61,15 +61,15 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getStudentiIstekaoRok() {
         LocalDate currentDate = LocalDate.now();
 
-        // Dohvatite listu svih izdatih knjiga
+     
         List<StudentKnjiga> izdateKnjige = studentKnjigaRepository.findAll();
 
-        // Filtrirajte izdate knjige za koje je datum vraćanja prošao
+   
         List<StudentKnjiga> istekleKnjige = izdateKnjige.stream()
                 .filter(knjiga -> knjiga.getDatumVracanja().isBefore(currentDate))
                 .collect(Collectors.toList());
 
-        // Dohvatite sve studente povezane s isteklim knjigama
+        
         List<Student> studentiIstekaoRok = istekleKnjige.stream()
                 .map(StudentKnjiga::getStudent)
                 .distinct()
