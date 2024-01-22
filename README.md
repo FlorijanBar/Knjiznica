@@ -8,8 +8,8 @@ For testing and sending email notifications, MailHog was used.
 
 ![Snimka zaslona 2024-01-22 134949](https://github.com/FlorijanBar/Knjiznica/assets/101203001/624f87c2-974d-4d4f-8577-ac64aff7f647)
 ![Snimka zaslona 2024-01-22 135024](https://github.com/FlorijanBar/Knjiznica/assets/101203001/9882563f-ecf5-4979-bee0-d9cfb3f334aa)
-![Snimka zaslona 2024-01-22 135048](https://github.com/FlorijanBar/Knjiznica/assets/101203001/497fc7ed-ec88-421c-8870-61bd5cab4f54)
 ![Snimka zaslona 2024-01-22 140425](https://github.com/FlorijanBar/Knjiznica/assets/101203001/26143c92-dc7e-46ac-8faf-4957b7659e25)
+![Snimka zaslona 2024-01-22 135048](https://github.com/FlorijanBar/Knjiznica/assets/101203001/497fc7ed-ec88-421c-8870-61bd5cab4f54)
 ![Snimka zaslona 2024-01-22 135117](https://github.com/FlorijanBar/Knjiznica/assets/101203001/ce6cde21-ca05-49ed-8aa9-81a065908a2c)
 ![Snimka zaslona 2024-01-22 135137](https://github.com/FlorijanBar/Knjiznica/assets/101203001/208a5e07-972f-477f-8023-0e623b70b1b2)
 ![Snimka zaslona 2024-01-22 135159](https://github.com/FlorijanBar/Knjiznica/assets/101203001/e46c6a2c-8774-4147-a662-1cff212d5141)
