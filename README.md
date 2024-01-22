@@ -1,4 +1,4 @@
-Made by using Java- Spring Boot framework
+Made by using Java- Spring Boot framework.
 For successful entry, you need to login with the following information:
 http://localhost:9000/home
 username: knjiznica@mev.hr
