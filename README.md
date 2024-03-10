@@ -6,6 +6,18 @@ password: mev
 
 For testing and sending email notifications, MailHog was used.
 
+The Library project is a web application that enables management of books and library users. The application functionalities include:
+
+Viewing available books, creating new ones, and editing existing ones.
+Searching for books.
+Viewing available students in the library, creating and editing students.
+Issuing a book to a specific student, recording issued books, return deadlines for each book, searching whether a book is issued or available in the library.
+Keeping records for each student and viewing borrowed books.
+Sending notifications to students via email who haven't returned a borrowed book within a specific deadline, listing students with overdue borrowed books.
+Technologies used:
+Java (SpringBoot framework)
+HTML, CSS (Bootstrap)
+
 ![Snimka zaslona 2024-01-22 134949](https://github.com/FlorijanBar/Knjiznica/assets/101203001/624f87c2-974d-4d4f-8577-ac64aff7f647)
 ![Snimka zaslona 2024-01-22 135024](https://github.com/FlorijanBar/Knjiznica/assets/101203001/9882563f-ecf5-4979-bee0-d9cfb3f334aa)
 ![Snimka zaslona 2024-01-22 140425](https://github.com/FlorijanBar/Knjiznica/assets/101203001/26143c92-dc7e-46ac-8faf-4957b7659e25)
